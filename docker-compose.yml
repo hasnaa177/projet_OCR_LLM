@@ -1,0 +1,52 @@
+services:
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: pfa
+      POSTGRES_PASSWORD: pfa123
+      POSTGRES_DB: pfa_ocr
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pfa"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./app
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./app:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+  minio_data:
