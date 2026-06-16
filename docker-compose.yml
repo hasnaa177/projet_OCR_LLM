@@ -1,5 +1,6 @@
-services:
+version: '3.8'
 
+services:
   postgres:
     image: postgres:15
     environment:
@@ -33,6 +34,14 @@ services:
       timeout: 5s
       retries: 5
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
   api:
     build: ./app
     env_file: .env
@@ -45,8 +54,11 @@ services:
         condition: service_healthy
     volumes:
       - ./app:/app
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   postgres_data:
   minio_data:
+  ollama_data:
