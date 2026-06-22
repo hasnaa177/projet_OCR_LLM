@@ -11,7 +11,63 @@ from minio import Minio
 import easyocr
 import numpy as np
 from pdf2image import convert_from_bytes
+from pydantic import BaseModel, Field
+from typing import Optional
 
+class CreditExtractionSchema(BaseModel):
+    client_name: Optional[str] = Field(None, description="Nom complet du client ou demandeur de crédit")
+    cin: Optional[str] = Field(None, description="Numéro de la Carte d'Identité Nationale (CIN)")
+    monthly_income: Optional[float] = Field(None, description="Revenu mensuel net du client en Dirhams (DH)")
+    requested_amount: Optional[float] = Field(None, description="Montant total du crédit demandé")
+    loan_duration_months: Optional[int] = Field(None, description="Durée de remboursement du crédit en mois")
+
+
+
+
+
+import ollama
+
+def extract_credit_info_with_llm(raw_text: str) -> dict:
+    """
+    Envoie le texte brut de l'OCR à Llama 3.1 et extrait les informations
+    structurées selon le schéma CreditExtractionSchema.
+    """
+    if not raw_text.strip():
+        return {}
+
+    # Initialisation du client Ollama (utilise l'URL du conteneur dans Docker)
+    ollama_url = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
+    client = ollama.Client(host=ollama_url)
+
+    prompt = f"""
+    Tu es un expert en analyse de documents d'approbation de crédit chez Eqdom.
+    Analyse le texte brut suivant extrait par un OCR et extrait les informations demandées sous forme de JSON structuré.
+    
+    Texte brut du document :
+    ---
+    {raw_text}
+    ---
+    
+    Remplis uniquement les champs requis. Si une information est introuvable ou incertaine, laisse sa valeur à null.
+    """
+
+    try:
+        # Appel à Ollama avec contrainte de format JSON basée sur le schéma Pydantic
+        response = client.chat(
+            model="llama3.1",
+            messages=[{"role": "user", "content": prompt}],
+            format=CreditExtractionSchema.model_json_schema(), # Force la structure JSON attendue
+            options={"temperature": 0.0} # Température à 0 pour une extraction factuelle et stable
+        )
+        
+        # La réponse contient une chaîne de caractères JSON propre
+        import json
+        extracted_json = json.loads(response['message']['content'])
+        return extracted_json
+
+    except Exception as e:
+        print(f"Erreur lors de l'extraction LLM : {e}")
+        return {}
 
 app = FastAPI(title="PFA OCR – Dossiers de Crédit")
 
@@ -266,3 +322,46 @@ def get_ocr_results(doc_id: str):
             detail="Aucun résultat OCR trouvé pour ce document."
         )
     return [dict(r._mapping) for r in results]
+
+
+@app.post("/extract/{doc_id}")
+def trigger_extraction(doc_id: str):
+    """
+    Récupère le texte complet extrait par l'OCR pour un document donné,
+    l'envoie à Llama 3.1 et retourne les informations structurées.
+    """
+    # 1. Récupérer tous les textes de pages associés à ce document
+    with get_engine().connect() as conn:
+        results = conn.execute(
+            text("""
+                SELECT text FROM ocr_results 
+                WHERE document_id = :id 
+                ORDER BY page_number
+            """),
+            {"id": doc_id}
+        ).fetchall()
+
+    if not results:
+        raise HTTPException(
+            status_code=400, 
+            detail="Veuillez d'abord exécuter l'OCR sur ce document avant l'extraction."
+        )
+
+    # 2. Fusionner le texte de toutes les pages du document
+    full_document_text = " ".join([row.text for row in results])
+
+    # 3. Lancer l'extraction intelligente avec Llama 3.1
+    extracted_data = extract_credit_info_with_llm(full_document_text)
+
+    # 4. Mettre à jour le statut du document (Optionnel mais recommandé)
+    with get_engine().connect() as conn:
+        conn.execute(text("""
+            UPDATE documents SET status = 'extraction_complete' WHERE id = :id
+        """), {"id": doc_id})
+        conn.commit()
+
+    return {
+        "document_id": doc_id,
+        "status": "extraction_complete",
+        "extracted_data": extracted_data
+    }
