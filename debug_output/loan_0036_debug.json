@@ -1,0 +1,172 @@
+{
+  "doc_id": "loan_0036",
+  "api_doc_id": null,
+  "ocr_text_full": "",
+  "extracted_data": {},
+  "ground_truth": {
+    "company_name": "Gotthard Geisel GmbH UG",
+    "legal_form": "Stock Corporation (AG)",
+    "date_of_incorporation": "28/03/2002",
+    "business_address": "Eugenie-Börner-Straße 98, 80628 Soest, Germany",
+    "commercial_register": "HRB 912318 / Soest Local Court",
+    "vat_id": "DE768106757",
+    "property_type": "Mixed-Use Building",
+    "property_name": "Luft Center Soest",
+    "property_address": "Rohlederallee 87, 52245 Soest, Germany",
+    "purchase_price": 2381000,
+    "financing_amount": 1898000,
+    "purpose_of_use": "Modernization",
+    "equity_contribution": 483000,
+    "year_of_construction": 2013,
+    "total_area_m2": 235,
+    "desired_loan_amount": 1898000,
+    "term_years": 10,
+    "monthly_installment": 18000,
+    "interest_rate": "Variable",
+    "early_repayment": true,
+    "public_subsidies": true,
+    "signature_city": "Soest",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Gotthard Geisel GmbH UG",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "legal_form",
+      "expected": "Stock Corporation (AG)",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "date_of_incorporation",
+      "expected": "28/03/2002",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "business_address",
+      "expected": "Eugenie-Börner-Straße 98, 80628 Soest, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "commercial_register",
+      "expected": "HRB 912318 / Soest Local Court",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "vat_id",
+      "expected": "DE768106757",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_type",
+      "expected": "Mixed-Use Building",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_name",
+      "expected": "Luft Center Soest",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_address",
+      "expected": "Rohlederallee 87, 52245 Soest, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purchase_price",
+      "expected": 2381000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "financing_amount",
+      "expected": 1898000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "Modernization",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "equity_contribution",
+      "expected": 483000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "year_of_construction",
+      "expected": 2013,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "total_area_m2",
+      "expected": 235,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "desired_loan_amount",
+      "expected": 1898000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "term_years",
+      "expected": 10,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "monthly_installment",
+      "expected": 18000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "interest_rate",
+      "expected": "Variable",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "early_repayment",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "public_subsidies",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_city",
+      "expected": "Soest",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_date",
+      "expected": "26/06/2026",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    }
+  ],
+  "accuracy": "0/23"
+}

@@ -1,110 +1,111 @@
 import os
 import uuid
+import json
+import re
+import numpy as np
 from datetime import datetime
 from pathlib import Path
 from io import BytesIO
-import json
+from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from sqlalchemy import create_engine, text
 from minio import Minio
-import easyocr
-import numpy as np
+from minio.error import S3Error
 from pdf2image import convert_from_bytes
-from pydantic import BaseModel, Field
-from typing import Optional
-
-class CreditExtractionSchema(BaseModel):
-    client_name: Optional[str] = Field(None, description="Nom complet du client ou demandeur de crédit")
-    cin: Optional[str] = Field(None, description="Numéro de la Carte d'Identité Nationale (CIN)")
-    monthly_income: Optional[float] = Field(None, description="Revenu mensuel net du client en Dirhams (DH)")
-    requested_amount: Optional[float] = Field(None, description="Montant total du crédit demandé")
-    loan_duration_months: Optional[int] = Field(None, description="Durée de remboursement du crédit en mois")
-
-
-
-
-
+from PIL import Image
+from paddleocr import PaddleOCR
+from pydantic import BaseModel
 import ollama
 
-def extract_credit_info_with_llm(raw_text: str) -> dict:
-    """
-    Envoie le texte brut de l'OCR à Llama 3.1 et extrait les informations
-    structurées selon le schéma CreditExtractionSchema.
-    """
-    if not raw_text.strip():
-        return {}
+# ==========================================
+# SCHÉMA PYDANTIC – 23 champs
+# ==========================================
+class CreditExtractionSchema(BaseModel):
+    company_name: Optional[str] = None
+    legal_form: Optional[str] = None
+    date_of_incorporation: Optional[str] = None
+    business_address: Optional[str] = None
+    commercial_register: Optional[str] = None
+    vat_id: Optional[str] = None
+    property_type: Optional[str] = None
+    property_name: Optional[str] = None
+    property_address: Optional[str] = None
+    purchase_price: Optional[float] = None
+    financing_amount: Optional[float] = None
+    purpose_of_use: Optional[str] = None
+    equity_contribution: Optional[float] = None
+    year_of_construction: Optional[int] = None
+    total_area_m2: Optional[float] = None
+    desired_loan_amount: Optional[float] = None
+    term_years: Optional[int] = None
+    monthly_installment: Optional[float] = None
+    interest_rate: Optional[str] = None
+    early_repayment: Optional[bool] = None
+    public_subsidies: Optional[bool] = None
+    signature_city: Optional[str] = None
+    signature_date: Optional[str] = None
 
-    # Initialisation du client Ollama (utilise l'URL du conteneur dans Docker)
-    ollama_url = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
-    client = ollama.Client(host=ollama_url)
 
-    prompt = f"""
-    Tu es un expert en analyse de documents d'approbation de crédit chez Eqdom.
-    Analyse le texte brut suivant extrait par un OCR et extrait les informations demandées sous forme de JSON structuré.
-    
-    Texte brut du document :
-    ---
-    {raw_text}
-    ---
-    
-    Remplis uniquement les champs requis. Si une information est introuvable ou incertaine, laisse sa valeur à null.
-    """
+# ==========================================
+# APP FASTAPI
+# ==========================================
+app = FastAPI(title="PFA OCR – Dossiers de Crédit Immobilier Commercial")
 
-    try:
-        # Appel à Ollama avec contrainte de format JSON basée sur le schéma Pydantic
-        response = client.chat(
-            model="llama3.1",
-            messages=[{"role": "user", "content": prompt}],
-            format=CreditExtractionSchema.model_json_schema(), # Force la structure JSON attendue
-            options={"temperature": 0.0} # Température à 0 pour une extraction factuelle et stable
-        )
-        
-        # La réponse contient une chaîne de caractères JSON propre
-        import json
-        extracted_json = json.loads(response['message']['content'])
-        return extracted_json
-
-    except Exception as e:
-        print(f"Erreur lors de l'extraction LLM : {e}")
-        return {}
-
-app = FastAPI(title="PFA OCR – Dossiers de Crédit")
-
-# --- Base de données ---
-engine = None
+# ==========================================
+# BASE DE DONNÉES – PostgreSQL
+# ==========================================
+_engine = None
 
 def get_engine():
-    global engine
-    if engine is None:
-        engine = create_engine(os.getenv("DATABASE_URL"))
-    return engine
+    global _engine
+    if _engine is None:
+        database_url = os.getenv(
+            "DATABASE_URL",
+            "postgresql://pfa:pfa123@postgres:5432/pfa_ocr"
+        )
+        _engine = create_engine(database_url)
+    return _engine
+
 
 def init_db():
     with get_engine().connect() as conn:
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS documents (
                 id UUID PRIMARY KEY,
-                filename TEXT NOT NULL,
-                blob_path TEXT NOT NULL,
-                status TEXT NOT NULL DEFAULT 'recu',
+                filename TEXT,
+                blob_path TEXT,
+                status TEXT DEFAULT 'recu',
                 created_at TIMESTAMP DEFAULT NOW()
             )
         """))
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS ocr_results (
                 id UUID PRIMARY KEY,
-                document_id UUID REFERENCES documents(id),
-                page_number INTEGER NOT NULL,
-                text TEXT NOT NULL,
-                bounding_boxes JSONB NOT NULL,
+                document_id UUID,
+                page_number INTEGER,
+                text TEXT,
+                bounding_boxes JSONB,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """))
+        conn.execute(text("""
+            CREATE TABLE IF NOT EXISTS extractions (
+                id UUID PRIMARY KEY,
+                document_id UUID UNIQUE,
+                extracted_data JSONB,
                 created_at TIMESTAMP DEFAULT NOW()
             )
         """))
         conn.commit()
 
-# --- Couche d'abstraction stockage ---
-def get_minio_client():
+
+# ==========================================
+# MINIO – Stockage objet
+# ==========================================
+BUCKET_NAME = "credit-documents"
+
+def get_minio_client() -> Minio:
     return Minio(
         os.getenv("MINIO_ENDPOINT", "minio:9000"),
         access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),
@@ -112,256 +113,506 @@ def get_minio_client():
         secure=False
     )
 
+
 def init_storage():
-    backend = os.getenv("STORAGE_BACKEND", "local")
-    if backend == "minio":
-        client = get_minio_client()
-        bucket = os.getenv("MINIO_BUCKET", "credit-docs")
-        if not client.bucket_exists(bucket):
-            client.make_bucket(bucket)
-    elif backend == "local":
-        Path(os.getenv("UPLOAD_DIR", "/app/uploads")).mkdir(
-            parents=True, exist_ok=True
-        )
+    client = get_minio_client()
+    try:
+        if not client.bucket_exists(BUCKET_NAME):
+            client.make_bucket(BUCKET_NAME)
+            print(f"✅ Bucket '{BUCKET_NAME}' créé")
+        else:
+            print(f"✅ Bucket '{BUCKET_NAME}' déjà existant")
+    except S3Error as e:
+        print(f"⚠️  Erreur MinIO init : {e}")
 
-def save_file(file_id: str, filename: str, content: bytes) -> str:
-    backend = os.getenv("STORAGE_BACKEND", "local")
-    if backend == "minio":
-        client = get_minio_client()
-        bucket = os.getenv("MINIO_BUCKET", "credit-docs")
-        object_name = f"{file_id}/{filename}"
-        client.put_object(
-            bucket, object_name, BytesIO(content),
-            length=len(content), content_type="application/pdf"
-        )
-        return object_name
-    elif backend == "local":
-        upload_dir = Path(os.getenv("UPLOAD_DIR", "/app/uploads"))
-        file_dir = upload_dir / file_id
-        file_dir.mkdir(parents=True, exist_ok=True)
-        file_path = file_dir / filename
-        with open(file_path, "wb") as f:
-            f.write(content)
-        return str(file_path)
-    raise ValueError(f"Backend inconnu : {backend}")
 
-def get_file(file_id: str, filename: str) -> bytes:
-    backend = os.getenv("STORAGE_BACKEND", "local")
-    if backend == "minio":
-        client = get_minio_client()
-        bucket = os.getenv("MINIO_BUCKET", "credit-docs")
-        object_name = f"{file_id}/{filename}"
-        response = client.get_object(bucket, object_name)
+def save_file(file_bytes: bytes, filename: str) -> str:
+    """Sauvegarde dans MinIO, retourne le blob_path."""
+    client = get_minio_client()
+    blob_path = f"uploads/{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{filename}"
+    client.put_object(
+        BUCKET_NAME,
+        blob_path,
+        BytesIO(file_bytes),
+        length=len(file_bytes),
+        content_type="application/pdf"
+    )
+    return blob_path
+
+
+def get_file(blob_path: str) -> bytes:
+    """Récupère les bytes depuis MinIO."""
+    client = get_minio_client()
+    response = client.get_object(BUCKET_NAME, blob_path)
+    try:
         return response.read()
-    elif backend == "local":
-        upload_dir = Path(os.getenv("UPLOAD_DIR", "/app/uploads"))
-        file_path = upload_dir / file_id / filename
-        if not file_path.exists():
-            raise FileNotFoundError(f"Fichier non trouvé : {file_path}")
-        with open(file_path, "rb") as f:
-            return f.read()
-    raise ValueError(f"Backend inconnu : {backend}")
+    finally:
+        response.close()
+        response.release_conn()
 
-# --- OCR ---
-reader = None
 
-def get_ocr_reader():
-    """Initialise EasyOCR une seule fois."""
-    global reader
-    if reader is None:
-        reader = easyocr.Reader(['fr', 'en'], gpu=False)
-    return reader
+# ==========================================
+# PADDLEOCR – Moteur OCR
+# ==========================================
+# Singleton chargé une seule fois au démarrage
+_ocr_engine: Optional[PaddleOCR] = None
 
-def run_ocr(pdf_bytes: bytes) -> list:
+def get_ocr_engine() -> PaddleOCR:
     """
-    Convertit le PDF en images puis applique EasyOCR sur chaque page.
-    Retourne une liste de résultats par page avec texte + bounding boxes converties.
+    Lazy singleton : évite de recharger le modèle à chaque requête.
+    lang='en' : les documents sont en anglais avec noms/adresses allemands.
+    Passer lang='german' si les documents sont majoritairement en allemand.
     """
-    pages = convert_from_bytes(pdf_bytes, dpi=200)
+    global _ocr_engine
+    if _ocr_engine is None:
+        _ocr_engine = PaddleOCR(
+            use_angle_cls=True,   # correction d'orientation
+            lang="en",            # ← changer en 'german' si texte 100% allemand
+            show_log=False,
+            use_gpu=False         # ← True si GPU disponible dans le container
+        )
+        print("✅ PaddleOCR initialisé")
+    return _ocr_engine
+
+
+def run_ocr(pdf_bytes: bytes) -> List[Dict]:
+    """
+    Convertit le PDF en images (300 DPI) et applique PaddleOCR page par page.
+
+    Retourne une liste de dicts :
+      {
+        "page_number": int,
+        "text": str,            # texte complet de la page (ordre lecture)
+        "bounding_boxes": [     # chaque token détecté
+          {"text": str, "confidence": float, "bbox": [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]}
+        ]
+      }
+    """
+    engine = get_ocr_engine()
+    # Conversion PDF → PIL Images à 300 DPI pour qualité optimale
+    pages = convert_from_bytes(pdf_bytes, dpi=300)
     results = []
 
-    for page_number, page_image in enumerate(pages, start=1):
-        page_array = np.array(page_image)
-        ocr_result = get_ocr_reader().readtext(page_array)
+    for page_num, pil_image in enumerate(pages, start=1):
+        img_array = np.array(pil_image)          # HxWx3 uint8, RGB
+        ocr_result = engine.ocr(img_array, cls=True)
 
-        boxes = []
-        full_text = []
-        for (bbox, text, confidence) in ocr_result:
-            # Conversion des coordonnées NumPy en entiers Python natifs pour le JSON
-            cleaned_bbox = [[int(coord[0]), int(coord[1])] for coord in bbox]
-            
-            boxes.append({
-                "text": text,
-                "confidence": round(float(confidence), 3),
-                "bbox": cleaned_bbox
+        full_text_tokens: List[str] = []
+        bounding_boxes: List[Dict] = []
+
+        # PaddleOCR retourne une liste de pages ; pour une image unique : ocr_result[0]
+        page_lines = ocr_result[0] if (ocr_result and ocr_result[0]) else []
+
+        for line in page_lines:
+            bbox = line[0]                    # [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+            token_text = line[1][0]           # texte reconnu
+            confidence = float(line[1][1])    # score [0..1]
+
+            full_text_tokens.append(token_text)
+            bounding_boxes.append({
+                "text": token_text,
+                "confidence": round(confidence, 3),
+                "bbox": bbox
             })
-            full_text.append(text)
 
         results.append({
-            "page_number": page_number,
-            "text": " ".join(full_text),
-            "bounding_boxes": boxes
+            "page_number": page_num,
+            "text": " ".join(full_text_tokens),
+            "bounding_boxes": bounding_boxes
         })
 
     return results
 
-# --- Démarrage ---
+
+# ==========================================
+# PRÉ-TRAITEMENT DU TEXTE OCR
+# ==========================================
+def pre_process_ocr_text(pages: List[Dict]) -> str:
+    """
+    Concatène les pages et nettoie le texte avant envoi au LLM.
+
+    Corrections appliquées :
+    - Normalisation des espaces
+    - Remplacement des tokens de checkbox OCR par des formes canoniques
+    - Suppression des lignes de séparation (tirets, underscores)
+    """
+    raw = "\n\n".join(p["text"] for p in pages)
+
+    # --- Normalisation des checkboxes ---
+    # PaddleOCR peut lire [x], [X], [✓], (x), ☑ comme la case cochée
+    # et [ ], [], ( ), ☐ comme la case vide
+    raw = re.sub(r'\[\s*[xX✓✗]\s*\]|\(x\)|☑|✅', '[x]', raw)
+    raw = re.sub(r'\[\s*\]|\(\s*\)|☐', '[ ]', raw)
+
+    # --- Suppression des lignes de trait (signature, séparateur) ---
+    raw = re.sub(r'_{3,}', '', raw)
+    raw = re.sub(r'-{3,}', '', raw)
+
+    # --- Normalisation des espaces multiples ---
+    raw = re.sub(r'[ \t]{2,}', ' ', raw)
+    raw = re.sub(r'\n{3,}', '\n\n', raw)
+
+    return raw.strip()
+
+
+# ==========================================
+# DÉTECTION DES CHECKBOXES
+# ==========================================
+def extract_checkbox_value(ocr_text: str, field_label: str) -> Optional[bool]:
+    """
+    Cherche dans le texte OCR un pattern du type :
+      'Early Repayment Desired? [ ] yes [x] no'
+    et retourne True/False selon la case cochée.
+
+    Fonctionne aussi avec l'ordre inversé (yes/no ou no/yes).
+    """
+    # On cherche la ligne contenant le label
+    pattern = re.compile(
+        r'(?i)' + re.escape(field_label) + r'.{0,20}'
+        r'(\[x\]|\[ \])\s*(yes|no).{0,10}'
+        r'(\[x\]|\[ \])\s*(yes|no)',
+        re.DOTALL
+    )
+    match = pattern.search(ocr_text)
+    if not match:
+        return None
+
+    checkbox1, label1, checkbox2, label2 = (
+        match.group(1), match.group(2),
+        match.group(3), match.group(4)
+    )
+
+    checked_label = label1 if checkbox1 == '[x]' else label2
+    return checked_label.lower() == 'yes'
+
+
+# ==========================================
+# EXTRACTION LLM – Llama 3.1 via Ollama
+# ==========================================
+EXTRACTION_PROMPT = """You are a precise data extraction assistant for commercial real estate loan applications.
+Extract exactly the following 23 fields from the document text below.
+
+Return ONLY a valid JSON object. No explanations, no markdown, no extra text.
+
+Fields to extract:
+- company_name (string)
+- legal_form (string)
+- date_of_incorporation (string, format DD/MM/YYYY)
+- business_address (string, full address)
+- commercial_register (string, number and court)
+- vat_id (string)
+- property_type (string)
+- property_name (string)
+- property_address (string, full address)
+- purchase_price (number, euros, no currency symbol)
+- financing_amount (number, euros)
+- purpose_of_use (string)
+- equity_contribution (number, euros)
+- year_of_construction (integer)
+- total_area_m2 (number, numeric value only, no unit)
+- desired_loan_amount (number, euros)
+- term_years (integer)
+- monthly_installment (number, euros)
+- interest_rate (string, e.g. "Variable" or "4.5%")
+- early_repayment (boolean: true if [x] next to "yes", false if [x] next to "no")
+- public_subsidies (boolean: true if [x] next to "yes", false if [x] next to "no")
+- signature_city (string)
+- signature_date (string, format DD/MM/YYYY)
+
+Use null for any field not found in the document.
+
+Document text:
+{ocr_text}
+"""
+
+def extract_credit_info_with_llm(ocr_text: str) -> Dict[str, Any]:
+    """
+    Envoie le texte OCR pré-traité à Llama 3.1 via Ollama.
+    Retourne un dict avec les 23 champs extraits.
+    """
+    prompt = EXTRACTION_PROMPT.format(ocr_text=ocr_text)
+
+    try:
+        response = ollama.chat(
+            model=os.getenv("OLLAMA_MODEL", "llama3.1"),
+            messages=[{"role": "user", "content": prompt}],
+            options={"temperature": 0}   # déterministe
+        )
+        raw_json = response["message"]["content"].strip()
+
+        # Supprime les éventuels blocs markdown ```json ... ```
+        raw_json = re.sub(r'^```json\s*', '', raw_json, flags=re.MULTILINE)
+        raw_json = re.sub(r'^```\s*', '', raw_json, flags=re.MULTILINE)
+
+        return json.loads(raw_json)
+
+    except json.JSONDecodeError as e:
+        print(f"⚠️  JSON invalide retourné par le LLM : {e}")
+        return {}
+    except Exception as e:
+        print(f"⚠️  Erreur Ollama : {e}")
+        return {}
+
+
+# ==========================================
+# POST-TRAITEMENT – Nettoyage et typage
+# ==========================================
+def post_process_extraction(
+    llm_data: Dict[str, Any],
+    ocr_text: str
+) -> CreditExtractionSchema:
+    """
+    1. Surcharge les checkboxes avec la détection déterministe (plus fiable que le LLM)
+    2. Corrige les types numériques
+    3. Valide via Pydantic
+    """
+    # -- Surcharge checkboxes (détection pattern > LLM) --
+    early_repayment = extract_checkbox_value(ocr_text, "Early Repayment Desired")
+    if early_repayment is not None:
+        llm_data["early_repayment"] = early_repayment
+
+    public_subsidies = extract_checkbox_value(ocr_text, "Public Subsidies Applied For")
+    if public_subsidies is not None:
+        llm_data["public_subsidies"] = public_subsidies
+
+    # -- Nettoyage des valeurs numériques (supprime €, espaces, virgules) --
+    numeric_fields = [
+        "purchase_price", "financing_amount", "equity_contribution",
+        "total_area_m2", "desired_loan_amount", "monthly_installment"
+    ]
+    for field in numeric_fields:
+        val = llm_data.get(field)
+        if isinstance(val, str):
+            cleaned = re.sub(r'[€,\s]', '', val).replace(',', '.')
+            try:
+                llm_data[field] = float(cleaned)
+            except ValueError:
+                llm_data[field] = None
+
+    # -- Nettoyage des champs entiers --
+    for field in ["year_of_construction", "term_years"]:
+        val = llm_data.get(field)
+        if isinstance(val, str):
+            match = re.search(r'\d{1,4}', val)
+            llm_data[field] = int(match.group()) if match else None
+
+    # -- Validation Pydantic (champs inconnus ignorés) --
+    return CreditExtractionSchema(**{
+        k: v for k, v in llm_data.items()
+        if k in CreditExtractionSchema.model_fields
+    })
+
+
+# ==========================================
+# ENDPOINTS FASTAPI
+# ==========================================
+
 @app.on_event("startup")
 def startup():
     init_db()
     init_storage()
+    get_ocr_engine()   # préchargement du modèle au démarrage
 
-# --- Endpoints ---
+
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "timestamp": datetime.utcnow().isoformat()}
+
 
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
-    if not file.filename.endswith(".pdf"):
-        raise HTTPException(
-            status_code=400,
-            detail="Seuls les fichiers PDF sont acceptés."
-        )
+    """
+    Reçoit un PDF, le stocke dans MinIO et crée l'entrée en base.
+    Retourne le document_id pour les appels suivants.
+    """
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Seuls les fichiers PDF sont acceptés")
+
+    file_bytes = await file.read()
+    if len(file_bytes) == 0:
+        raise HTTPException(status_code=400, detail="Fichier vide")
+
     doc_id = str(uuid.uuid4())
-    content = await file.read()
-    blob_path = save_file(doc_id, file.filename, content)
+    blob_path = save_file(file_bytes, file.filename)
 
     with get_engine().connect() as conn:
         conn.execute(text("""
             INSERT INTO documents (id, filename, blob_path, status, created_at)
-            VALUES (:id, :filename, :blob_path, 'recu', :created_at)
-        """), {
-            "id": doc_id,
-            "filename": file.filename,
-            "blob_path": blob_path,
-            "created_at": datetime.utcnow()
-        })
+            VALUES (:id, :filename, :blob_path, 'recu', NOW())
+        """), {"id": doc_id, "filename": file.filename, "blob_path": blob_path})
         conn.commit()
 
     return {
         "document_id": doc_id,
         "filename": file.filename,
         "status": "recu",
-        "blob_path": blob_path
+        "message": "Document uploadé. Lancez /ocr/{document_id} pour démarrer l'OCR."
     }
 
-@app.get("/documents/{doc_id}")
-def get_document(doc_id: str):
-    with get_engine().connect() as conn:
-        result = conn.execute(
-            text("SELECT * FROM documents WHERE id = :id"),
-            {"id": doc_id}
-        ).fetchone()
-    if not result:
-        raise HTTPException(status_code=404, detail="Document non trouvé.")
-    return dict(result._mapping)
 
 @app.post("/ocr/{doc_id}")
 def trigger_ocr(doc_id: str):
-    """Déclenche l'OCR sur un document déjà uploadé."""
-
-    # 1. Vérifier que le document existe
+    """
+    Lance PaddleOCR sur le PDF stocké, persiste les résultats en base.
+    """
     with get_engine().connect() as conn:
-        doc = conn.execute(
-            text("SELECT * FROM documents WHERE id = :id"),
+        row = conn.execute(
+            text("SELECT blob_path FROM documents WHERE id = :id"),
             {"id": doc_id}
         ).fetchone()
-    if not doc:
-        raise HTTPException(status_code=404, detail="Document non trouvé.")
 
-    # 2. Récupérer le PDF depuis le stockage
-    pdf_bytes = get_file(doc_id, doc.filename)
+    if not row:
+        raise HTTPException(status_code=404, detail="Document introuvable")
 
-    # 3. Lancer l'OCR
-    ocr_results = run_ocr(pdf_bytes)
+    # Téléchargement depuis MinIO
+    try:
+        pdf_bytes = get_file(row.blob_path)
+    except S3Error as e:
+        raise HTTPException(status_code=500, detail=f"Erreur MinIO : {e}")
 
-    # 4. Sauvegarder les résultats en base
+    # OCR
+    try:
+        pages = run_ocr(pdf_bytes)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur OCR : {e}")
+
+    # Persistance des résultats page par page
     with get_engine().connect() as conn:
-        for page_result in ocr_results:
+        for page in pages:
             conn.execute(text("""
-                INSERT INTO ocr_results
-                    (id, document_id, page_number, text, bounding_boxes, created_at)
-                VALUES
-                    (:id, :document_id, :page_number, :text, :bounding_boxes, :created_at)
+                INSERT INTO ocr_results (id, document_id, page_number, text, bounding_boxes, created_at)
+                VALUES (:id, :document_id, :page_number, :text, :bounding_boxes::jsonb, NOW())
+                ON CONFLICT DO NOTHING
             """), {
                 "id": str(uuid.uuid4()),
                 "document_id": doc_id,
-                "page_number": page_result["page_number"],
-                "text": page_result["text"],
-                "bounding_boxes": json.dumps(page_result["bounding_boxes"]),
-                "created_at": datetime.utcnow()
+                "page_number": page["page_number"],
+                "text": page["text"],
+                "bounding_boxes": json.dumps(page["bounding_boxes"])
             })
-        conn.execute(text("""
-            UPDATE documents SET status = 'ocr_effectue' WHERE id = :id
-        """), {"id": doc_id})
+        conn.execute(
+            text("UPDATE documents SET status = 'ocr_fait' WHERE id = :id"),
+            {"id": doc_id}
+        )
         conn.commit()
 
+    total_tokens = sum(len(p["bounding_boxes"]) for p in pages)
     return {
         "document_id": doc_id,
-        "status": "ocr_effectue",
-        "pages_processed": len(ocr_results),
-        "results": ocr_results
+        "pages_processed": len(pages),
+        "total_tokens_detected": total_tokens,
+        "status": "ocr_fait"
     }
-
-@app.get("/ocr/{doc_id}")
-def get_ocr_results(doc_id: str):
-    """Retourne les résultats OCR d'un document."""
-    with get_engine().connect() as conn:
-        results = conn.execute(
-            text("""
-                SELECT * FROM ocr_results
-                WHERE document_id = :id
-                ORDER BY page_number
-            """),
-            {"id": doc_id}
-        ).fetchall()
-    if not results:
-        raise HTTPException(
-            status_code=404,
-            detail="Aucun résultat OCR trouvé pour ce document."
-        )
-    return [dict(r._mapping) for r in results]
 
 
 @app.post("/extract/{doc_id}")
-def trigger_extraction(doc_id: str):
+def extract_fields(doc_id: str):
     """
-    Récupère le texte complet extrait par l'OCR pour un document donné,
-    l'envoie à Llama 3.1 et retourne les informations structurées.
+    Récupère le texte OCR depuis la base, envoie au LLM, 
+    persiste et retourne les 23 champs extraits.
     """
-    # 1. Récupérer tous les textes de pages associés à ce document
     with get_engine().connect() as conn:
-        results = conn.execute(
+        rows = conn.execute(
             text("""
-                SELECT text FROM ocr_results 
-                WHERE document_id = :id 
-                ORDER BY page_number
+                SELECT page_number, text FROM ocr_results
+                WHERE document_id = :id ORDER BY page_number
             """),
             {"id": doc_id}
         ).fetchall()
 
-    if not results:
+    if not rows:
         raise HTTPException(
-            status_code=400, 
-            detail="Veuillez d'abord exécuter l'OCR sur ce document avant l'extraction."
+            status_code=404,
+            detail="Aucun résultat OCR. Lancez /ocr/{doc_id} d'abord."
         )
 
-    # 2. Fusionner le texte de toutes les pages du document
-    full_document_text = " ".join([row.text for row in results])
+    pages = [{"page_number": r.page_number, "text": r.text} for r in rows]
+    ocr_text = pre_process_ocr_text(pages)
 
-    # 3. Lancer l'extraction intelligente avec Llama 3.1
-    extracted_data = extract_credit_info_with_llm(full_document_text)
+    # Extraction LLM
+    llm_raw = extract_credit_info_with_llm(ocr_text)
+    extraction = post_process_extraction(llm_raw, ocr_text)
 
-    # 4. Mettre à jour le statut du document (Optionnel mais recommandé)
+    # Persistance
     with get_engine().connect() as conn:
         conn.execute(text("""
-            UPDATE documents SET status = 'extraction_complete' WHERE id = :id
-        """), {"id": doc_id})
+            INSERT INTO extractions (id, document_id, extracted_data, created_at)
+            VALUES (:id, :document_id, :data::jsonb, NOW())
+            ON CONFLICT (document_id) DO UPDATE
+            SET extracted_data = EXCLUDED.extracted_data, created_at = NOW()
+        """), {
+            "id": str(uuid.uuid4()),
+            "document_id": doc_id,
+            "data": json.dumps(extraction.model_dump())
+        })
+        conn.execute(
+            text("UPDATE documents SET status = 'extrait' WHERE id = :id"),
+            {"id": doc_id}
+        )
         conn.commit()
 
     return {
         "document_id": doc_id,
-        "status": "extraction_complete",
-        "extracted_data": extracted_data
+        "status": "extrait",
+        "extracted_fields": extraction.model_dump()
     }
+
+
+@app.get("/status/{doc_id}")
+def get_status(doc_id: str):
+    """Retourne le statut du pipeline pour un document."""
+    with get_engine().connect() as conn:
+        row = conn.execute(
+            text("SELECT filename, status, created_at FROM documents WHERE id = :id"),
+            {"id": doc_id}
+        ).fetchone()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Document introuvable")
+
+    return {
+        "document_id": doc_id,
+        "filename": row.filename,
+        "status": row.status,
+        "created_at": row.created_at.isoformat()
+    }
+
+
+@app.get("/results/{doc_id}")
+def get_results(doc_id: str):
+    """Retourne les 23 champs extraits pour un document traité."""
+    with get_engine().connect() as conn:
+        row = conn.execute(
+            text("SELECT extracted_data FROM extractions WHERE document_id = :id"),
+            {"id": doc_id}
+        ).fetchone()
+
+    if not row:
+        raise HTTPException(
+            status_code=404,
+            detail="Aucune extraction disponible. Lancez /extract/{doc_id} d'abord."
+        )
+
+    return {
+        "document_id": doc_id,
+        "extracted_fields": row.extracted_data
+    }
+
+
+@app.get("/documents")
+def list_documents():
+    """Liste tous les documents et leur statut."""
+    with get_engine().connect() as conn:
+        rows = conn.execute(
+            text("SELECT id, filename, status, created_at FROM documents ORDER BY created_at DESC")
+        ).fetchall()
+
+    return [
+        {
+            "document_id": str(r.id),
+            "filename": r.filename,
+            "status": r.status,
+            "created_at": r.created_at.isoformat()
+        }
+        for r in rows
+    ]

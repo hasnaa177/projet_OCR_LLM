@@ -1,0 +1,172 @@
+{
+  "doc_id": "loan_0012",
+  "api_doc_id": null,
+  "ocr_text_full": "",
+  "extracted_data": {},
+  "ground_truth": {
+    "company_name": "Hentschel Weimer GbR UG",
+    "legal_form": "Limited Liability Company (GmbH)",
+    "date_of_incorporation": "17/03/2014",
+    "business_address": "Gröttnerring 177, 80876 Main-Höchst, Germany",
+    "commercial_register": "HRB 558939 / Main-Höchst Local Court",
+    "vat_id": "DE595191752",
+    "property_type": "Retail Property",
+    "property_name": "Ziehen Center Main-Höchst",
+    "property_address": "Aribert-Schaaf-Ring 167, 35489 Main-Höchst, Germany",
+    "purchase_price": 2677000,
+    "financing_amount": 2115000,
+    "purpose_of_use": "Purchase",
+    "equity_contribution": 562000,
+    "year_of_construction": 2012,
+    "total_area_m2": 2334,
+    "desired_loan_amount": 2115000,
+    "term_years": 20,
+    "monthly_installment": 10000,
+    "interest_rate": "Variable",
+    "early_repayment": true,
+    "public_subsidies": true,
+    "signature_city": "Main-Höchst",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Hentschel Weimer GbR UG",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "legal_form",
+      "expected": "Limited Liability Company (GmbH)",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "date_of_incorporation",
+      "expected": "17/03/2014",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "business_address",
+      "expected": "Gröttnerring 177, 80876 Main-Höchst, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "commercial_register",
+      "expected": "HRB 558939 / Main-Höchst Local Court",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "vat_id",
+      "expected": "DE595191752",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_type",
+      "expected": "Retail Property",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_name",
+      "expected": "Ziehen Center Main-Höchst",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_address",
+      "expected": "Aribert-Schaaf-Ring 167, 35489 Main-Höchst, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purchase_price",
+      "expected": 2677000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "financing_amount",
+      "expected": 2115000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "Purchase",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "equity_contribution",
+      "expected": 562000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "year_of_construction",
+      "expected": 2012,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "total_area_m2",
+      "expected": 2334,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "desired_loan_amount",
+      "expected": 2115000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "term_years",
+      "expected": 20,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "monthly_installment",
+      "expected": 10000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "interest_rate",
+      "expected": "Variable",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "early_repayment",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "public_subsidies",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_city",
+      "expected": "Main-Höchst",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_date",
+      "expected": "26/06/2026",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    }
+  ],
+  "accuracy": "0/23"
+}

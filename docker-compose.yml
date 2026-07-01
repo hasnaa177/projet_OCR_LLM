@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   postgres:
@@ -36,27 +36,108 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    container_name: ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
 
+  
   api:
-    build: ./app
-    env_file: .env
+    image: pfa-ocr-api-with-models   # ← remplace "build: ."
+    # build: .                        # ← commenter cette ligne
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://pfa:pfa123@postgres:5432/pfa_ocr
+      - MINIO_ENDPOINT=minio:9000
+      - OLLAMA_MODEL=llama3.1
     depends_on:
       postgres:
         condition: service_healthy
       minio:
         condition: service_healthy
-    volumes:
-      - ./app:/app
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+
+  # ==========================================
+  # SERVICES DÉSACTIVÉS (commentés)
+  # ==========================================
+  # Les 3 services ci-dessous référencent des fichiers (main_easyocr.py,
+  # main_docling.py, main_groq.py) qui n'existent pas dans ./app pour
+  # l'instant. Ils sont commentés pour ne pas faire planter `docker compose
+  # up` au démarrage. Décommente un bloc UNIQUEMENT une fois le fichier
+  # correspondant créé dans ./app, et après avoir vérifié qu'il s'importe
+  # sans erreur (`python -c "import main_easyocr"` par exemple).
+  #
+  # IMPORTANT : tous les services ci-dessous partagent le même contexte de
+  # build (./app) et le même volume monté (./app:/app) que api_tesseract.
+  # Cela veut dire qu'ils utilisent TOUS le même code source -- il faut donc
+  # que main_easyocr.py, main_docling.py et main_groq.py coexistent dans le
+  # même dossier ./app que main.py, sans s'écraser les uns les autres.
+  #
+  # api_easyocr:
+  #   build: ./app
+  #   env_file: .env
+  #   ports:
+  #     - "8001:8000"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     minio:
+  #       condition: service_healthy
+  #     ollama:
+  #       condition: service_started
+  #   volumes:
+  #     - ./app:/app
+  #     - easyocr_models:/root/.EasyOCR
+  #   environment:
+  #     - OLLAMA_BASE_URL=http://ollama:11434
+  #     - DATABASE_URL=postgresql://pfa:pfa123@postgres:5432/pfa_ocr
+  #     - STORAGE_BACKEND=local
+  #     - UPLOAD_DIR=/app/uploads
+  #     - EASYOCR_GPU=false
+  #   command: uvicorn main_easyocr:app --host 0.0.0.0 --port 8000 --reload
+  #
+  # api_docling:
+  #   build: ./app
+  #   env_file: .env
+  #   ports:
+  #     - "8002:8000"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     minio:
+  #       condition: service_healthy
+  #     ollama:
+  #       condition: service_started
+  #   volumes:
+  #     - ./app:/app
+  #   environment:
+  #     - OLLAMA_BASE_URL=http://ollama:11434
+  #     - DATABASE_URL=postgresql://pfa:pfa123@postgres:5432/pfa_ocr
+  #     - STORAGE_BACKEND=local
+  #     - UPLOAD_DIR=/app/uploads
+  #     - DOCLING_DO_OCR=false
+  #   command: uvicorn main_docling:app --host 0.0.0.0 --port 8000 --reload
+  #
+  # api_groq:
+  #   build: ./app
+  #   env_file: .env
+  #   ports:
+  #     - "8003:8000"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     minio:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./app:/app
+  #   environment:
+  #     - DATABASE_URL=postgresql://pfa:pfa123@postgres:5432/pfa_ocr
+  #     - STORAGE_BACKEND=local
+  #     - UPLOAD_DIR=/app/uploads
+  #     # GROQ_API_KEY doit être défini dans le fichier .env
+  #     # GROQ_MODEL peut être surchargé ici (défaut : llama-3.1-70b-versatile)
+  #   command: uvicorn main_groq:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   postgres_data:

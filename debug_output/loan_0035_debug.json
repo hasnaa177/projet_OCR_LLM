@@ -1,0 +1,172 @@
+{
+  "doc_id": "loan_0035",
+  "api_doc_id": null,
+  "ocr_text_full": "",
+  "extracted_data": {},
+  "ground_truth": {
+    "company_name": "Pärtzelt Beyer AG UG",
+    "legal_form": "Sole Proprietorship",
+    "date_of_incorporation": "07/04/2019",
+    "business_address": "Dussen vanweg 66, 48659 Garmisch-Partenkirchen, Germany",
+    "commercial_register": "HRB 635119 / Garmisch-Partenkirchen Local Court",
+    "vat_id": "DE851642564",
+    "property_type": "Retail Property",
+    "property_name": "Rad Center Garmisch-Partenkirchen",
+    "property_address": "Dussen vanplatz 169, 41420 Garmisch-Partenkirchen, Germany",
+    "purchase_price": 4213000,
+    "financing_amount": 3769000,
+    "purpose_of_use": "Refinancing",
+    "equity_contribution": 444000,
+    "year_of_construction": 1976,
+    "total_area_m2": 4437,
+    "desired_loan_amount": 3769000,
+    "term_years": 20,
+    "monthly_installment": 19800,
+    "interest_rate": "Variable",
+    "early_repayment": false,
+    "public_subsidies": true,
+    "signature_city": "Garmisch-Partenkirchen",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Pärtzelt Beyer AG UG",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "legal_form",
+      "expected": "Sole Proprietorship",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "date_of_incorporation",
+      "expected": "07/04/2019",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "business_address",
+      "expected": "Dussen vanweg 66, 48659 Garmisch-Partenkirchen, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "commercial_register",
+      "expected": "HRB 635119 / Garmisch-Partenkirchen Local Court",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "vat_id",
+      "expected": "DE851642564",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_type",
+      "expected": "Retail Property",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_name",
+      "expected": "Rad Center Garmisch-Partenkirchen",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_address",
+      "expected": "Dussen vanplatz 169, 41420 Garmisch-Partenkirchen, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purchase_price",
+      "expected": 4213000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "financing_amount",
+      "expected": 3769000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "Refinancing",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "equity_contribution",
+      "expected": 444000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "year_of_construction",
+      "expected": 1976,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "total_area_m2",
+      "expected": 4437,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "desired_loan_amount",
+      "expected": 3769000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "term_years",
+      "expected": 20,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "monthly_installment",
+      "expected": 19800,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "interest_rate",
+      "expected": "Variable",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "early_repayment",
+      "expected": false,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "public_subsidies",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_city",
+      "expected": "Garmisch-Partenkirchen",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_date",
+      "expected": "26/06/2026",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    }
+  ],
+  "accuracy": "0/23"
+}

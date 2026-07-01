@@ -1,0 +1,72 @@
+{
+  "doc_id": "loan_0001",
+  "api_doc_id": "fff05d90-ac14-4629-8287-dfcd3fc99091",
+  "ocr_text_full": "Loan Application for a Commercial Real Estate Loan - Company Profile 1. Applicant Company Name S0ding GmbH & Co.KGaA UG Legal Form Limited Partnership (KG) Date of Incorporation 01/12/2006 Business Address Falk-Textor-Weg 160, 86608 Gransee, Germany Commercial Register Number / Court HRB 977141/ Gransee Local Court VAT ID / Tax Number DE 681242882 2. Financial Request/ Property Description Office and Commercial Building Type of P roperty P roperty Name W erden Center Gransee Adress Laszlo-Hiller-Allee 29, 79030 Gransee, Germany Purchase P rice / Construction Costs £1,337,000 Desired F inancing Amount £944,000 Purpose of Use M odernization E quity Contribution £393,000 Y ear of Construction 1990 Total Area 3,133 m2 3. Financing Proposal Desired Loan Amount £944,000 Term 25 years P referred Installment Amount £4,100 per month Interest Rate Variable E arly Repayment Desired? []yes [x] no P ublic Subsidies Applied For? [x] yes [] no 4. Declaration & Signature I hereby confirm the accuracy and completeness of the information provided. Gransee, 26/06/2026 Place / Date S ignature (Managing Director)",
+  "extracted_data": {
+    "company_name": "S0ding GmbH & Co.KGaA UG",
+    "legal_form": "Limited Partnership (KG)",
+    "date_of_incorporation": "01/12/2006",
+    "business_address": "Falk-Textor-Weg 160, 86608 Gransee, Germany",
+    "commercial_register": "HRB 977141 / Gransee Local Court",
+    "vat_id": "DE681242882",
+    "property_type": "Office and Commercial Building",
+    "property_name": "Werden Center Gransee",
+    "property_address": "Laszlo-Hiller-Allee 29, 79030 Gransee, Germany",
+    "purchase_price": 1337000,
+    "financing_amount": 944000,
+    "purpose_of_use": "Modernization Equity Contribution",
+    "equity_contribution": 393000,
+    "year_of_construction": 1990,
+    "total_area_m2": 3133,
+    "desired_loan_amount": 944000,
+    "term_years": 25,
+    "monthly_installment": 4100,
+    "interest_rate": "Variable",
+    "early_repayment": false,
+    "public_subsidies": true,
+    "signature_city": "Gransee",
+    "signature_date": "26/06/2026"
+  },
+  "ground_truth": {
+    "company_name": "Söding GmbH & Co. KGaA UG",
+    "legal_form": "Limited Partnership (KG)",
+    "date_of_incorporation": "01/12/2006",
+    "business_address": "Falk-Textor-Weg 160, 86608 Gransee, Germany",
+    "commercial_register": "HRB 977141 / Gransee Local Court",
+    "vat_id": "DE681242882",
+    "property_type": "Office and Commercial Building",
+    "property_name": "Werden Center Gransee",
+    "property_address": "Laszlo-Hiller-Allee 29, 79030 Gransee, Germany",
+    "purchase_price": 1337000,
+    "financing_amount": 944000,
+    "purpose_of_use": "Modernization",
+    "equity_contribution": 393000,
+    "year_of_construction": 1990,
+    "total_area_m2": 3133,
+    "desired_loan_amount": 944000,
+    "term_years": 25,
+    "monthly_installment": 4100,
+    "interest_rate": "Variable",
+    "early_repayment": false,
+    "public_subsidies": true,
+    "signature_city": "Gransee",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Söding GmbH & Co. KGaA UG",
+      "actual": "S0ding GmbH & Co.KGaA UG",
+      "ocr_snippet": "Company Name S0ding GmbH & Co.KGaA UG Legal Form Limited Partnership (KG) Date of Incorporat",
+      "diagnosis": "OCR"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "Modernization",
+      "actual": "Modernization Equity Contribution",
+      "ocr_snippet": "Purpose of Use M odernization E quity Contribution £393,000 Y ear of Construction 1990 Total A",
+      "diagnosis": "LLM"
+    }
+  ],
+  "accuracy": "21/23"
+}

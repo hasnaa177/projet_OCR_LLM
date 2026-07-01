@@ -1,0 +1,172 @@
+{
+  "doc_id": "loan_0023",
+  "api_doc_id": null,
+  "ocr_text_full": "",
+  "extracted_data": {},
+  "ground_truth": {
+    "company_name": "Kallert Mielcarek AG & Co. KGaA AG",
+    "legal_form": "Sole Proprietorship",
+    "date_of_incorporation": "24/12/2010",
+    "business_address": "Dominic-Adolph-Straße 175, 73520 Schleiz, Germany",
+    "commercial_register": "HRB 413830 / Schleiz Local Court",
+    "vat_id": "DE415998184",
+    "property_type": "Warehouse / Logistics Center",
+    "property_name": "Viel Center Schleiz",
+    "property_address": "Antonietta-Ladeck-Ring 130, 64862 Schleiz, Germany",
+    "purchase_price": 3941000,
+    "financing_amount": 2795000,
+    "purpose_of_use": "New Construction",
+    "equity_contribution": 1146000,
+    "year_of_construction": 2002,
+    "total_area_m2": 2962,
+    "desired_loan_amount": 2795000,
+    "term_years": 25,
+    "monthly_installment": 10300,
+    "interest_rate": "Variable",
+    "early_repayment": false,
+    "public_subsidies": false,
+    "signature_city": "Schleiz",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Kallert Mielcarek AG & Co. KGaA AG",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "legal_form",
+      "expected": "Sole Proprietorship",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "date_of_incorporation",
+      "expected": "24/12/2010",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "business_address",
+      "expected": "Dominic-Adolph-Straße 175, 73520 Schleiz, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "commercial_register",
+      "expected": "HRB 413830 / Schleiz Local Court",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "vat_id",
+      "expected": "DE415998184",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_type",
+      "expected": "Warehouse / Logistics Center",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_name",
+      "expected": "Viel Center Schleiz",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_address",
+      "expected": "Antonietta-Ladeck-Ring 130, 64862 Schleiz, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purchase_price",
+      "expected": 3941000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "financing_amount",
+      "expected": 2795000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "New Construction",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "equity_contribution",
+      "expected": 1146000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "year_of_construction",
+      "expected": 2002,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "total_area_m2",
+      "expected": 2962,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "desired_loan_amount",
+      "expected": 2795000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "term_years",
+      "expected": 25,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "monthly_installment",
+      "expected": 10300,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "interest_rate",
+      "expected": "Variable",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "early_repayment",
+      "expected": false,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "public_subsidies",
+      "expected": false,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_city",
+      "expected": "Schleiz",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_date",
+      "expected": "26/06/2026",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    }
+  ],
+  "accuracy": "0/23"
+}

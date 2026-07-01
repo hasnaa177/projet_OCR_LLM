@@ -1,0 +1,172 @@
+{
+  "doc_id": "loan_0024",
+  "api_doc_id": null,
+  "ocr_text_full": "",
+  "extracted_data": {},
+  "ground_truth": {
+    "company_name": "Schacht GmbH UG",
+    "legal_form": "Limited Partnership (KG)",
+    "date_of_incorporation": "17/05/2017",
+    "business_address": "Olena-Dietz-Gasse 156, 26123 Prenzlau, Germany",
+    "commercial_register": "HRB 700163 / Prenzlau Local Court",
+    "vat_id": "DE574511194",
+    "property_type": "Mixed-Use Building",
+    "property_name": "Spät Center Prenzlau",
+    "property_address": "Eigenwilliggasse 19, 21682 Prenzlau, Germany",
+    "purchase_price": 1608000,
+    "financing_amount": 1143000,
+    "purpose_of_use": "Purchase",
+    "equity_contribution": 465000,
+    "year_of_construction": 1991,
+    "total_area_m2": 3112,
+    "desired_loan_amount": 1143000,
+    "term_years": 30,
+    "monthly_installment": 4400,
+    "interest_rate": "Fixed",
+    "early_repayment": true,
+    "public_subsidies": false,
+    "signature_city": "Prenzlau",
+    "signature_date": "26/06/2026"
+  },
+  "errors": [
+    {
+      "field": "company_name",
+      "expected": "Schacht GmbH UG",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "legal_form",
+      "expected": "Limited Partnership (KG)",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "date_of_incorporation",
+      "expected": "17/05/2017",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "business_address",
+      "expected": "Olena-Dietz-Gasse 156, 26123 Prenzlau, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "commercial_register",
+      "expected": "HRB 700163 / Prenzlau Local Court",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "vat_id",
+      "expected": "DE574511194",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_type",
+      "expected": "Mixed-Use Building",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_name",
+      "expected": "Spät Center Prenzlau",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "property_address",
+      "expected": "Eigenwilliggasse 19, 21682 Prenzlau, Germany",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purchase_price",
+      "expected": 1608000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "financing_amount",
+      "expected": 1143000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "purpose_of_use",
+      "expected": "Purchase",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "equity_contribution",
+      "expected": 465000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "year_of_construction",
+      "expected": 1991,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "total_area_m2",
+      "expected": 3112,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "desired_loan_amount",
+      "expected": 1143000,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "term_years",
+      "expected": 30,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "monthly_installment",
+      "expected": 4400,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "interest_rate",
+      "expected": "Fixed",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "early_repayment",
+      "expected": true,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "public_subsidies",
+      "expected": false,
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_city",
+      "expected": "Prenzlau",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    },
+    {
+      "field": "signature_date",
+      "expected": "26/06/2026",
+      "actual": null,
+      "ocr_snippet": "(texte OCR vide ou introuvable)"
+    }
+  ],
+  "accuracy": "0/23"
+}
