@@ -1,0 +1,16 @@
+# Variables d'environnement (contient des mots de passe)
+.env
+
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker volumes
+postgres_data/
+minio_data/
+
+# VS Code
+.vscode/
