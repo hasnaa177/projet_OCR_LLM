@@ -16,6 +16,8 @@ from typing import Optional
 import ollama
 from ocr_engines import run_ocr, needs_easyocr_preprocessing
 
+import hashlib
+
 # ==========================================
 # 1. SCHÉMA DE SORTIE STRICT (23 CHAMPS)
 # ==========================================
@@ -299,7 +301,10 @@ def init_db():
                 blob_path TEXT NOT NULL,
                 status TEXT NOT NULL DEFAULT 'recu',
                 created_at TIMESTAMP DEFAULT NOW()
-            )
+            )                  
+        """))
+        conn.execute(text("""
+            ALTER TABLE documents ADD COLUMN IF NOT EXISTS file_hash TEXT
         """))
         conn.execute(text("""
             CREATE TABLE IF NOT EXISTS ocr_results (
@@ -393,16 +398,38 @@ def health():
 async def upload_document(file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Seuls les fichiers PDF sont acceptés.")
-    doc_id = str(uuid.uuid4())
     content = await file.read()
+
+    file_hash = hashlib.sha256(content).hexdigest()
+
+    # Verifie si ce meme contenu de fichier a deja ete uploade
+    with get_engine().connect() as conn:
+        existing = conn.execute(
+            text("SELECT id, status FROM documents WHERE file_hash = :file_hash"),
+            {"file_hash": file_hash}
+        ).fetchone()
+
+    if existing:
+        return {
+            "document_id": str(existing.id),
+            "filename": file.filename,
+            "status": existing.status,
+            "already_processed": True,
+        }
+
+    doc_id = str(uuid.uuid4())
     blob_path = save_file(doc_id, file.filename, content)
     with get_engine().connect() as conn:
         conn.execute(text("""
-            INSERT INTO documents (id, filename, blob_path, status, created_at)
-            VALUES (:id, :filename, :blob_path, 'recu', :created_at)
-        """), {"id": doc_id, "filename": file.filename, "blob_path": blob_path, "created_at": datetime.utcnow()})
+            INSERT INTO documents (id, filename, blob_path, status, created_at, file_hash)
+            VALUES (:id, :filename, :blob_path, 'recu', :created_at, :file_hash)
+        """), {
+            "id": doc_id, "filename": file.filename, "blob_path": blob_path,
+            "created_at": datetime.utcnow(), "file_hash": file_hash
+        })
         conn.commit()
-    return {"document_id": doc_id, "filename": file.filename, "status": "recu", "blob_path": blob_path}
+    return {"document_id": doc_id, "filename": file.filename, "status": "recu", "already_processed": False}
+
 
 @app.get("/documents/{doc_id}")
 def get_document(doc_id: str):
@@ -418,6 +445,17 @@ def trigger_ocr(doc_id: str):
         doc = conn.execute(text("SELECT * FROM documents WHERE id = :id"), {"id": doc_id}).fetchone()
     if not doc:
         raise HTTPException(status_code=404, detail="Document non trouvé.")
+
+    # Si l'OCR a deja ete fait pour ce document, renvoie le resultat existant
+    with get_engine().connect() as conn:
+        existing = conn.execute(
+            text("SELECT page_number, text, bounding_boxes FROM ocr_results WHERE document_id = :id ORDER BY page_number"),
+            {"id": doc_id}
+        ).fetchall()
+    if existing:
+        results = [{"page_number": r.page_number, "text": r.text, "bounding_boxes": r.bounding_boxes} for r in existing]
+        return {"document_id": doc_id, "status": "ocr_effectue", "pages_processed": len(results), "results": results, "already_processed": True}
+
     pdf_bytes = get_file(doc_id, doc.filename)
     ocr_results = run_ocr(pdf_bytes)
     with get_engine().connect() as conn:
@@ -431,7 +469,8 @@ def trigger_ocr(doc_id: str):
             })
         conn.execute(text("UPDATE documents SET status = 'ocr_effectue' WHERE id = :id"), {"id": doc_id})
         conn.commit()
-    return {"document_id": doc_id, "status": "ocr_effectue", "pages_processed": len(ocr_results), "results": ocr_results}
+    return {"document_id": doc_id, "status": "ocr_effectue", "pages_processed": len(ocr_results), "results": ocr_results, "already_processed": False}
+
 
 @app.get("/ocr/{doc_id}")
 def get_ocr_results(doc_id: str):
@@ -455,6 +494,15 @@ def get_ocr_markdown(doc_id: str):
 
 @app.post("/extract/{doc_id}")
 def trigger_extraction(doc_id: str):
+    # Si l'extraction a deja ete faite pour ce document, renvoie le resultat existant
+    with get_engine().connect() as conn:
+        existing = conn.execute(
+            text("SELECT extracted_data FROM extractions WHERE document_id = :id ORDER BY created_at DESC LIMIT 1"),
+            {"id": doc_id}
+        ).fetchone()
+    if existing:
+        return {"document_id": doc_id, "status": "extraction_complete", "extracted_data": existing.extracted_data, "already_processed": True}
+
     with get_engine().connect() as conn:
         results = conn.execute(text("SELECT text FROM ocr_results WHERE document_id = :id ORDER BY page_number"), {"id": doc_id}).fetchall()
     if not results:
@@ -483,9 +531,7 @@ def trigger_extraction(doc_id: str):
         })
         conn.execute(text("UPDATE documents SET status = 'extraction_complete' WHERE id = :id"), {"id": doc_id})
         conn.commit()
-    return {"document_id": doc_id, "status": "extraction_complete", "extracted_data": extracted_data}
-
-
+    return {"document_id": doc_id, "status": "extraction_complete", "extracted_data": extracted_data, "already_processed": False}
 
 from fastapi.responses import Response
 
