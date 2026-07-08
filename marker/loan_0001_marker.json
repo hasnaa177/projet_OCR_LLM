@@ -1,0 +1,2176 @@
+{
+  "children": [
+    {
+      "id": "/page/0/Page/179",
+      "block_type": "Page",
+      "html": "<content-ref src='/page/0/SectionHeader/0'></content-ref><content-ref src='/page/0/SectionHeader/1'></content-ref><content-ref src='/page/0/Table/2'></content-ref><content-ref src='/page/0/SectionHeader/3'></content-ref><content-ref src='/page/0/Table/4'></content-ref><content-ref src='/page/0/SectionHeader/5'></content-ref><content-ref src='/page/0/Table/6'></content-ref><content-ref src='/page/0/SectionHeader/7'></content-ref><content-ref src='/page/0/Text/8'></content-ref><content-ref src='/page/0/Text/9'></content-ref>",
+      "polygon": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          596.0,
+          0.0
+        ],
+        [
+          596.0,
+          842.0
+        ],
+        [
+          0.0,
+          842.0
+        ]
+      ],
+      "bbox": [
+        0.0,
+        0.0,
+        596.0,
+        842.0
+      ],
+      "children": [
+        {
+          "id": "/page/0/SectionHeader/0",
+          "block_type": "SectionHeader",
+          "html": "<h1><b>Loan Application for a Commercial Real Estate</b> <b>Loan - Company Profile</b></h1>",
+          "polygon": [
+            [
+              57.023616790771484,
+              60.84765625
+            ],
+            [
+              501.5835876464844,
+              60.84765625
+            ],
+            [
+              501.5835876464844,
+              105.25
+            ],
+            [
+              57.023616790771484,
+              105.25
+            ]
+          ],
+          "bbox": [
+            57.023616790771484,
+            60.84765625,
+            501.5835876464844,
+            105.25
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/SectionHeader/1",
+          "block_type": "SectionHeader",
+          "html": "<h2><b>1. Applicant</b></h2>",
+          "polygon": [
+            [
+              57.023616790771484,
+              133.4249267578125
+            ],
+            [
+              125.13671875,
+              132.7958984375
+            ],
+            [
+              125.13671875,
+              145.4249267578125
+            ],
+            [
+              57.023616790771484,
+              146.7744140625
+            ]
+          ],
+          "bbox": [
+            57.023616790771484,
+            132.7958984375,
+            125.13671875,
+            146.7744140625
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/1"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/Table/2",
+          "block_type": "Table",
+          "html": "<table><tbody><tr><th>Company Name</th><th>Söding GmbH & Co. KGaA UG</th></tr><tr><td>Legal Form</td><td>Limited Partnership (KG)</td></tr><tr><td>Date of Incorporation</td><td>01/12/2006</td></tr><tr><td>Business Address</td><td>Falk-Textor-Weg 160, 86608 Gransee, Germany</td></tr><tr><td>Commercial Register Number / Court</td><td>HRB 977141 / Gransee Local Court</td></tr><tr><td>VAT ID / Tax Number</td><td>DE681242882</td></tr></tbody></table>",
+          "polygon": [
+            [
+              50.7589453125,
+              152.83451171875
+            ],
+            [
+              542.9129296875,
+              151.18998046875
+            ],
+            [
+              542.9129296875,
+              286.25533203125
+            ],
+            [
+              50.7589453125,
+              287.89986328125
+            ]
+          ],
+          "bbox": [
+            50.7589453125,
+            151.18998046875,
+            542.9129296875,
+            287.89986328125
+          ],
+          "children": [
+            {
+              "id": "/page/0/TableCell/138",
+              "block_type": "TableCell",
+              "html": "<th>Company Name</th>",
+              "polygon": [
+                [
+                  53.8903303265992,
+                  153.54472354107688
+                ],
+                [
+                  254.7703926604821,
+                  153.54472354107688
+                ],
+                [
+                  254.7703926604821,
+                  176.79039378578494
+                ],
+                [
+                  53.8903303265992,
+                  176.79039378578494
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                153.54472354107688,
+                254.7703926604821,
+                176.79039378578494
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/139",
+              "block_type": "TableCell",
+              "html": "<th>Söding GmbH &amp; Co. KGaA UG</th>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  153.54472354107688
+                ],
+                [
+                  539.4127496663629,
+                  153.54472354107688
+                ],
+                [
+                  539.4127496663629,
+                  176.79039378578494
+                ],
+                [
+                  254.77430356234686,
+                  176.79039378578494
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                153.54472354107688,
+                539.4127496663629,
+                176.79039378578494
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/140",
+              "block_type": "TableCell",
+              "html": "<td>Legal Form</td>",
+              "polygon": [
+                [
+                  54.400002286127894,
+                  176.81997037027605
+                ],
+                [
+                  254.7703926604821,
+                  176.5527157370392
+                ],
+                [
+                  254.7703926604821,
+                  198.86057652204806
+                ],
+                [
+                  53.8903303265992,
+                  199.12783115528492
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                176.5527157370392,
+                254.7703926604821,
+                199.12783115528492
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/141",
+              "block_type": "TableCell",
+              "html": "<td>Limited Partnership (KG)</td>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  176.81997037027605
+                ],
+                [
+                  539.827540064891,
+                  176.5527157370392
+                ],
+                [
+                  538.8774770753029,
+                  198.86057652204806
+                ],
+                [
+                  254.77430356234686,
+                  199.12783115528492
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                176.5527157370392,
+                539.827540064891,
+                199.12783115528492
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/142",
+              "block_type": "TableCell",
+              "html": "<td>Date of Incorporation</td>",
+              "polygon": [
+                [
+                  54.46929789065114,
+                  198.9210621716731
+                ],
+                [
+                  254.7703926604821,
+                  198.65380753843624
+                ],
+                [
+                  254.7703926604821,
+                  220.66398582695905
+                ],
+                [
+                  53.8903303265992,
+                  220.93124046019594
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                198.65380753843624,
+                254.7703926604821,
+                220.93124046019594
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/143",
+              "block_type": "TableCell",
+              "html": "<td>01/12/2006</td>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  198.9210621716731
+                ],
+                [
+                  539.827540064891,
+                  198.65380753843624
+                ],
+                [
+                  538.8701101982443,
+                  220.66398582695905
+                ],
+                [
+                  254.77430356234686,
+                  220.93124046019594
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                198.65380753843624,
+                539.827540064891,
+                220.93124046019594
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/144",
+              "block_type": "TableCell",
+              "html": "<td>Business Address</td>",
+              "polygon": [
+                [
+                  54.39590794608936,
+                  220.6673358892333
+                ],
+                [
+                  254.7703926604821,
+                  220.6673358892333
+                ],
+                [
+                  254.7703926604821,
+                  242.60025680735401
+                ],
+                [
+                  53.8903303265992,
+                  242.60025680735401
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                220.6673358892333,
+                254.7703926604821,
+                242.60025680735401
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/145",
+              "block_type": "TableCell",
+              "html": "<td>Falk-Textor-Weg 160, 86608 Gransee, Germany</td>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  220.6673358892333
+                ],
+                [
+                  539.8058356601705,
+                  220.6673358892333
+                ],
+                [
+                  538.8440913276768,
+                  242.60025680735401
+                ],
+                [
+                  254.77430356234686,
+                  242.60025680735401
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                220.6673358892333,
+                539.8058356601705,
+                242.60025680735401
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/146",
+              "block_type": "TableCell",
+              "html": "<td>Commercial Register Number / Court</td>",
+              "polygon": [
+                [
+                  54.40575490725731,
+                  242.65060153505522
+                ],
+                [
+                  254.7703926604821,
+                  242.38334690181836
+                ],
+                [
+                  254.7703926604821,
+                  264.4076023844625
+                ],
+                [
+                  53.8903303265992,
+                  264.67485701769937
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                242.38334690181836,
+                254.7703926604821,
+                264.67485701769937
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/147",
+              "block_type": "TableCell",
+              "html": "<td>HRB 977141 / Gransee Local Court</td>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  242.65060153505522
+                ],
+                [
+                  539.7772046300086,
+                  242.38334690181836
+                ],
+                [
+                  538.8154602975148,
+                  264.4076023844625
+                ],
+                [
+                  254.77430356234686,
+                  264.67485701769937
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                242.38334690181836,
+                539.7772046300086,
+                264.67485701769937
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/148",
+              "block_type": "TableCell",
+              "html": "<td>VAT ID / Tax Number</td>",
+              "polygon": [
+                [
+                  54.47245302723998,
+                  264.41178537457546
+                ],
+                [
+                  254.7703926604821,
+                  264.1445307413386
+                ],
+                [
+                  254.7703926604821,
+                  286.7139247507337
+                ],
+                [
+                  53.8903303265992,
+                  286.79995080209164
+                ]
+              ],
+              "bbox": [
+                53.8903303265992,
+                264.1445307413386,
+                254.7703926604821,
+                286.79995080209164
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/149",
+              "block_type": "TableCell",
+              "html": "<td>DE681242882</td>",
+              "polygon": [
+                [
+                  254.77430356234686,
+                  264.41178537457546
+                ],
+                [
+                  539.7812696199393,
+                  264.1445307413386
+                ],
+                [
+                  538.8195252874456,
+                  286.6246913664742
+                ],
+                [
+                  254.77430356234686,
+                  286.8919459997111
+                ]
+              ],
+              "bbox": [
+                254.77430356234686,
+                264.1445307413386,
+                539.7812696199393,
+                286.8919459997111
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/1"
+              },
+              "images": {}
+            }
+          ],
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/1"
+          },
+          "images": null
+        },
+        {
+          "id": "/page/0/SectionHeader/3",
+          "block_type": "SectionHeader",
+          "html": "<h2><b>2. Financial Request / Property Description</b></h2>",
+          "polygon": [
+            [
+              56.45703125,
+              303.4249267578125
+            ],
+            [
+              301.7635803222656,
+              303.0048828125
+            ],
+            [
+              301.7635803222656,
+              315.4249267578125
+            ],
+            [
+              55.29296875,
+              316.9833984375
+            ]
+          ],
+          "bbox": [
+            55.29296875,
+            303.0048828125,
+            301.7635803222656,
+            316.9833984375
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/Table/4",
+          "block_type": "Table",
+          "html": "<table><tbody><tr><th>Type of Property</th><th>Office and Commercial Building</th></tr><tr><td>Property Name</td><td>Werden Center Gransee</td></tr><tr><td>Adress</td><td>Laszlo-Hiller-Allee 29, 79030 Gransee, Germany</td></tr><tr><td>Purchase Price / Construction Costs</td><td>€1,337,000</td></tr><tr><td>Desired Financing Amount</td><td>€944,000</td></tr><tr><td>Purpose of Use</td><td>Modernization</td></tr><tr><td>Equity Contribution</td><td>€393,000</td></tr><tr><td>Year of Construction</td><td>1990</td></tr><tr><td>Total Area</td><td>3,133 m²</td></tr></tbody></table>",
+          "polygon": [
+            [
+              50.7589453125,
+              322.38568359375
+            ],
+            [
+              542.9129296875,
+              320.74115234375
+            ],
+            [
+              542.9129296875,
+              522.90337890625
+            ],
+            [
+              50.7589453125,
+              524.54791015625
+            ]
+          ],
+          "bbox": [
+            50.7589453125,
+            320.74115234375,
+            542.9129296875,
+            524.54791015625
+          ],
+          "children": [
+            {
+              "id": "/page/0/TableCell/150",
+              "block_type": "TableCell",
+              "html": "<th>Type of Property</th>",
+              "polygon": [
+                [
+                  53.82119614766888,
+                  323.4214568275301
+                ],
+                [
+                  254.27396493709958,
+                  323.02386979781056
+                ],
+                [
+                  254.27396493709958,
+                  346.3673384209087
+                ],
+                [
+                  53.82119614766888,
+                  346.76492545062825
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                323.02386979781056,
+                254.27396493709958,
+                346.76492545062825
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/151",
+              "block_type": "TableCell",
+              "html": "<th>Office and Commercial Building</th>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  323.4214568275301
+                ],
+                [
+                  539.4064247181313,
+                  323.02386979781056
+                ],
+                [
+                  539.4064247181313,
+                  346.3673384209087
+                ],
+                [
+                  254.033550866557,
+                  346.76492545062825
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                323.02386979781056,
+                539.4064247181313,
+                346.76492545062825
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/152",
+              "block_type": "TableCell",
+              "html": "<td>Property Name</td>",
+              "polygon": [
+                [
+                  53.83984080365083,
+                  346.59416007415507
+                ],
+                [
+                  254.27396493709958,
+                  346.59416007415507
+                ],
+                [
+                  254.27396493709958,
+                  368.5671801307776
+                ],
+                [
+                  53.83984080365083,
+                  368.5671801307776
+                ]
+              ],
+              "bbox": [
+                53.83984080365083,
+                346.59416007415507,
+                254.27396493709958,
+                368.5671801307776
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/153",
+              "block_type": "TableCell",
+              "html": "<td>Werden Center Gransee</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  346.59416007415507
+                ],
+                [
+                  539.5294456949882,
+                  346.59416007415507
+                ],
+                [
+                  539.5294456949882,
+                  368.5671801307776
+                ],
+                [
+                  254.033550866557,
+                  368.5671801307776
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                346.59416007415507,
+                539.5294456949882,
+                368.5671801307776
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/154",
+              "block_type": "TableCell",
+              "html": "<td>Adress</td>",
+              "polygon": [
+                [
+                  54.35144253276758,
+                  368.7313206745412
+                ],
+                [
+                  254.27396493709958,
+                  368.33373364482173
+                ],
+                [
+                  254.27396493709958,
+                  390.3844862852424
+                ],
+                [
+                  53.82119614766888,
+                  390.7820733149619
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                368.33373364482173,
+                254.27396493709958,
+                390.7820733149619
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/155",
+              "block_type": "TableCell",
+              "html": "<td>Laszlo-Hiller-Allee 29, 79030 Gransee, Germany</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  368.7313206745412
+                ],
+                [
+                  539.837827277676,
+                  368.33373364482173
+                ],
+                [
+                  539.0415001527608,
+                  390.3844862852424
+                ],
+                [
+                  254.033550866557,
+                  390.7820733149619
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                368.33373364482173,
+                539.837827277676,
+                390.7820733149619
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/156",
+              "block_type": "TableCell",
+              "html": "<td>Purchase Price / Construction Costs</td>",
+              "polygon": [
+                [
+                  54.42879474188279,
+                  390.54848956999496
+                ],
+                [
+                  254.27396493709958,
+                  390.15090254027547
+                ],
+                [
+                  254.27396493709958,
+                  412.10108300079605
+                ],
+                [
+                  53.82119614766888,
+                  412.49867003051554
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                390.15090254027547,
+                254.27396493709958,
+                412.49867003051554
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/157",
+              "block_type": "TableCell",
+              "html": "<td>€1,337,000</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  390.54848956999496
+                ],
+                [
+                  539.837827277676,
+                  390.15090254027547
+                ],
+                [
+                  538.8807642873769,
+                  412.10108300079605
+                ],
+                [
+                  254.033550866557,
+                  412.49867003051554
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                390.15090254027547,
+                539.837827277676,
+                412.49867003051554
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/158",
+              "block_type": "TableCell",
+              "html": "<td>Desired Financing Amount</td>",
+              "polygon": [
+                [
+                  54.52088070511518,
+                  412.3661218094031
+                ],
+                [
+                  254.27396493709958,
+                  411.9685347796836
+                ],
+                [
+                  254.27396493709958,
+                  434.00859638398487
+                ],
+                [
+                  53.82119614766888,
+                  434.40618341370435
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                411.9685347796836,
+                254.27396493709958,
+                434.40618341370435
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/159",
+              "block_type": "TableCell",
+              "html": "<td>€944,000</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  412.3661218094031
+                ],
+                [
+                  539.837827277676,
+                  411.9685347796836
+                ],
+                [
+                  538.9665106273238,
+                  434.00859638398487
+                ],
+                [
+                  254.033550866557,
+                  434.40618341370435
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                411.9685347796836,
+                539.837827277676,
+                434.40618341370435
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/160",
+              "block_type": "TableCell",
+              "html": "<td>Purpose of Use</td>",
+              "polygon": [
+                [
+                  53.99566052597776,
+                  434.3693244400496
+                ],
+                [
+                  254.27396493709958,
+                  433.9717374103301
+                ],
+                [
+                  254.27396493709958,
+                  455.95123366559494
+                ],
+                [
+                  53.99566052597776,
+                  456.34882069531443
+                ]
+              ],
+              "bbox": [
+                53.99566052597776,
+                433.9717374103301,
+                254.27396493709958,
+                456.34882069531443
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/161",
+              "block_type": "TableCell",
+              "html": "<td>Modernization</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  434.3693244400496
+                ],
+                [
+                  539.4276301710191,
+                  433.9717374103301
+                ],
+                [
+                  539.4276301710191,
+                  455.95123366559494
+                ],
+                [
+                  254.033550866557,
+                  456.34882069531443
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                433.9717374103301,
+                539.4276301710191,
+                456.34882069531443
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/162",
+              "block_type": "TableCell",
+              "html": "<td>Equity Contribution</td>",
+              "polygon": [
+                [
+                  54.52795408109574,
+                  456.25533669207834
+                ],
+                [
+                  254.27396493709958,
+                  455.85774966235886
+                ],
+                [
+                  254.27396493709958,
+                  477.91739153000265
+                ],
+                [
+                  53.82119614766888,
+                  478.31497855972214
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                455.85774966235886,
+                254.27396493709958,
+                478.31497855972214
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/163",
+              "block_type": "TableCell",
+              "html": "<td>€393,000</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  456.25533669207834
+                ],
+                [
+                  539.837827277676,
+                  455.85774966235886
+                ],
+                [
+                  538.8888795921845,
+                  477.91739153000265
+                ],
+                [
+                  254.033550866557,
+                  478.31497855972214
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                455.85774966235886,
+                539.837827277676,
+                478.31497855972214
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/164",
+              "block_type": "TableCell",
+              "html": "<td>Year of Construction</td>",
+              "polygon": [
+                [
+                  54.489079863310465,
+                  478.3294347394317
+                ],
+                [
+                  254.27396493709958,
+                  477.9318477097122
+                ],
+                [
+                  254.27396493709958,
+                  499.96751854233435
+                ],
+                [
+                  53.82119614766888,
+                  500.36510557205384
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                477.9318477097122,
+                254.27396493709958,
+                500.36510557205384
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/165",
+              "block_type": "TableCell",
+              "html": "<td>1990</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  478.3294347394317
+                ],
+                [
+                  539.837827277676,
+                  477.9318477097122
+                ],
+                [
+                  538.9244959480036,
+                  499.96751854233435
+                ],
+                [
+                  254.033550866557,
+                  500.36510557205384
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                477.9318477097122,
+                539.837827277676,
+                500.36510557205384
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/166",
+              "block_type": "TableCell",
+              "html": "<td>Total Area</td>",
+              "polygon": [
+                [
+                  54.528731858952526,
+                  500.3822637067707
+                ],
+                [
+                  254.27396493709958,
+                  499.9846766770512
+                ],
+                [
+                  254.27396493709958,
+                  522.3068927578
+                ],
+                [
+                  53.82119614766888,
+                  522.693426266277
+                ]
+              ],
+              "bbox": [
+                53.82119614766888,
+                499.9846766770512,
+                254.27396493709958,
+                522.693426266277
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/167",
+              "block_type": "TableCell",
+              "html": "<td>3,133 m²</td>",
+              "polygon": [
+                [
+                  254.033550866557,
+                  500.3822637067707
+                ],
+                [
+                  539.7394603913737,
+                  499.9846766770512
+                ],
+                [
+                  538.77771605888,
+                  522.3068927578
+                ],
+                [
+                  254.033550866557,
+                  522.7044797875195
+                ]
+              ],
+              "bbox": [
+                254.033550866557,
+                499.9846766770512,
+                539.7394603913737,
+                522.7044797875195
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3"
+              },
+              "images": {}
+            }
+          ],
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3"
+          },
+          "images": null
+        },
+        {
+          "id": "/page/0/SectionHeader/5",
+          "block_type": "SectionHeader",
+          "html": "<h4><b>3. Financing Proposal</b></h4>",
+          "polygon": [
+            [
+              56.166015625,
+              539.40625
+            ],
+            [
+              181.72760009765625,
+              537.76171875
+            ],
+            [
+              181.72760009765625,
+              551.4249267578125
+            ],
+            [
+              56.166015625,
+              551.4249267578125
+            ]
+          ],
+          "bbox": [
+            56.166015625,
+            537.76171875,
+            181.72760009765625,
+            551.4249267578125
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/5"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/Table/6",
+          "block_type": "Table",
+          "html": "<table><tbody><tr><th>Desired Loan Amount</th><th>€944,000</th></tr><tr><td>Term</td><td>25 years</td></tr><tr><td>Preferred Installment Amount</td><td>€4,100 per month</td></tr><tr><td>Interest Rate</td><td>Variable</td></tr><tr><td>Early Repayment Desired?</td><td>[ ] yes [x] no</td></tr><tr><td>Public Subsidies Applied For?</td><td>[x] yes [ ] no</td></tr></tbody></table>",
+          "polygon": [
+            [
+              51.3409765625,
+              558.614375
+            ],
+            [
+              543.4949609375,
+              556.96984375
+            ],
+            [
+              543.4949609375,
+              692.87390625
+            ],
+            [
+              51.3409765625,
+              694.5184375
+            ]
+          ],
+          "bbox": [
+            51.3409765625,
+            556.96984375,
+            543.4949609375,
+            694.5184375
+          ],
+          "children": [
+            {
+              "id": "/page/0/TableCell/168",
+              "block_type": "TableCell",
+              "html": "<th>Desired Loan Amount</th>",
+              "polygon": [
+                [
+                  54.16957816904679,
+                  559.1176535574865
+                ],
+                [
+                  254.5088180122928,
+                  559.1176535574865
+                ],
+                [
+                  254.5088180122928,
+                  582.6988791494562
+                ],
+                [
+                  54.16957816904679,
+                  582.6988791494562
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                559.1176535574865,
+                254.5088180122928,
+                582.6988791494562
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/169",
+              "block_type": "TableCell",
+              "html": "<th>€944,000</th>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  559.1176535574865
+                ],
+                [
+                  539.330711014577,
+                  559.1176535574865
+                ],
+                [
+                  539.330711014577,
+                  582.6988791494562
+                ],
+                [
+                  254.2849300657892,
+                  582.6988791494562
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                559.1176535574865,
+                539.330711014577,
+                582.6988791494562
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/170",
+              "block_type": "TableCell",
+              "html": "<td>Term</td>",
+              "polygon": [
+                [
+                  54.16957816904679,
+                  582.7712242971699
+                ],
+                [
+                  254.5088180122928,
+                  582.5025052549838
+                ],
+                [
+                  254.5088180122928,
+                  604.7620457343188
+                ],
+                [
+                  54.16957816904679,
+                  605.0307647765048
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                582.5025052549838,
+                254.5088180122928,
+                605.0307647765048
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/171",
+              "block_type": "TableCell",
+              "html": "<td>25 years</td>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  582.7712242971699
+                ],
+                [
+                  539.2918957542682,
+                  582.5025052549838
+                ],
+                [
+                  539.2918957542682,
+                  604.7620457343188
+                ],
+                [
+                  254.2849300657892,
+                  605.0307647765048
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                582.5025052549838,
+                539.2918957542682,
+                605.0307647765048
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/172",
+              "block_type": "TableCell",
+              "html": "<td>Preferred Installment Amount</td>",
+              "polygon": [
+                [
+                  54.72369643748257,
+                  604.7341440329285
+                ],
+                [
+                  254.5088180122928,
+                  604.4654249907423
+                ],
+                [
+                  254.5088180122928,
+                  626.474499034341
+                ],
+                [
+                  54.16957816904679,
+                  626.7432180765271
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                604.4654249907423,
+                254.5088180122928,
+                626.7432180765271
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/173",
+              "block_type": "TableCell",
+              "html": "<td>€4,100 per month</td>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  604.7341440329285
+                ],
+                [
+                  539.330711014577,
+                  604.4654249907423
+                ],
+                [
+                  538.8553670485134,
+                  626.474499034341
+                ],
+                [
+                  254.2849300657892,
+                  626.7432180765271
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                604.4654249907423,
+                539.330711014577,
+                626.7432180765271
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/174",
+              "block_type": "TableCell",
+              "html": "<td>Interest Rate</td>",
+              "polygon": [
+                [
+                  54.589272753594805,
+                  626.6537991664284
+                ],
+                [
+                  254.5088180122928,
+                  626.3850801242422
+                ],
+                [
+                  254.5088180122928,
+                  648.3007671661119
+                ],
+                [
+                  54.16957816904679,
+                  648.569486208298
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                626.3850801242422,
+                254.5088180122928,
+                648.569486208298
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/175",
+              "block_type": "TableCell",
+              "html": "<td>Variable</td>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  626.6537991664284
+                ],
+                [
+                  539.330711014577,
+                  626.3850801242422
+                ],
+                [
+                  538.8099237195761,
+                  648.3007671661119
+                ],
+                [
+                  254.2849300657892,
+                  648.569486208298
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                626.3850801242422,
+                539.330711014577,
+                648.569486208298
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/176",
+              "block_type": "TableCell",
+              "html": "<td>Early Repayment Desired?</td>",
+              "polygon": [
+                [
+                  54.16957816904679,
+                  648.5375262080795
+                ],
+                [
+                  254.5088180122928,
+                  648.2688071658933
+                ],
+                [
+                  254.5088180122928,
+                  670.3396628893038
+                ],
+                [
+                  54.16957816904679,
+                  670.6083819314898
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                648.2688071658933,
+                254.5088180122928,
+                670.6083819314898
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/177",
+              "block_type": "TableCell",
+              "html": "<td>[ ] yes [x] no</td>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  648.5375262080795
+                ],
+                [
+                  539.2415107015969,
+                  648.2688071658933
+                ],
+                [
+                  539.2415107015969,
+                  670.3396628893038
+                ],
+                [
+                  254.2849300657892,
+                  670.6083819314898
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                648.2688071658933,
+                539.2415107015969,
+                670.6083819314898
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/178",
+              "block_type": "TableCell",
+              "html": "<td>Public Subsidies Applied For?</td>",
+              "polygon": [
+                [
+                  54.63028759420069,
+                  670.4823460745758
+                ],
+                [
+                  254.5088180122928,
+                  670.2136270323897
+                ],
+                [
+                  254.5088180122928,
+                  693.0193720956116
+                ],
+                [
+                  54.16957816904679,
+                  693.2880911377977
+                ]
+              ],
+              "bbox": [
+                54.16957816904679,
+                670.2136270323897,
+                254.5088180122928,
+                693.2880911377977
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            },
+            {
+              "id": "/page/0/TableCell/179",
+              "block_type": "TableCell",
+              "html": "<td>[x] yes [ ] no</td>",
+              "polygon": [
+                [
+                  254.2849300657892,
+                  670.4823460745758
+                ],
+                [
+                  539.330711014577,
+                  670.2136270323897
+                ],
+                [
+                  538.7868867819315,
+                  692.9678678858811
+                ],
+                [
+                  254.2849300657892,
+                  693.2365869280673
+                ]
+              ],
+              "bbox": [
+                254.2849300657892,
+                670.2136270323897,
+                539.330711014577,
+                693.2365869280673
+              ],
+              "children": null,
+              "section_hierarchy": {
+                "1": "/page/0/SectionHeader/0",
+                "2": "/page/0/SectionHeader/3",
+                "4": "/page/0/SectionHeader/5"
+              },
+              "images": {}
+            }
+          ],
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/5"
+          },
+          "images": null
+        },
+        {
+          "id": "/page/0/SectionHeader/7",
+          "block_type": "SectionHeader",
+          "html": "<h4><b>4. Declaration &amp; Signature</b></h4>",
+          "polygon": [
+            [
+              56.166015625,
+              709.4249114990234
+            ],
+            [
+              206.3996124267578,
+              708.79296875
+            ],
+            [
+              206.3996124267578,
+              721.4249038696289
+            ],
+            [
+              56.166015625,
+              721.4249038696289
+            ]
+          ],
+          "bbox": [
+            56.166015625,
+            708.79296875,
+            206.3996124267578,
+            721.4249038696289
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/7"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/Text/8",
+          "block_type": "Text",
+          "html": "<p block-type=\"Text\">I hereby confirm the accuracy and completeness of the information provided.</p>",
+          "polygon": [
+            [
+              57.023616790771484,
+              732.8584136962891
+            ],
+            [
+              362.1595764160156,
+              731.4052734375
+            ],
+            [
+              362.1595764160156,
+              741.8584136962891
+            ],
+            [
+              57.023616790771484,
+              742.0947265625
+            ]
+          ],
+          "bbox": [
+            57.023616790771484,
+            731.4052734375,
+            362.1595764160156,
+            742.0947265625
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/7"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/0/Text/9",
+          "block_type": "Text",
+          "html": "<p block-type=\"Text\">Gransee, 26/06/2026</p>",
+          "polygon": [
+            [
+              57.023616790771484,
+              749.4951171875
+            ],
+            [
+              141.57861328125,
+              749.4951171875
+            ],
+            [
+              141.57861328125,
+              759.8584136962891
+            ],
+            [
+              57.023616790771484,
+              759.8584136962891
+            ]
+          ],
+          "bbox": [
+            57.023616790771484,
+            749.4951171875,
+            141.57861328125,
+            759.8584136962891
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/7"
+          },
+          "images": {}
+        }
+      ],
+      "section_hierarchy": {
+        "1": "/page/0/SectionHeader/0",
+        "2": "/page/0/SectionHeader/3",
+        "4": "/page/0/SectionHeader/7"
+      },
+      "images": null
+    },
+    {
+      "id": "/page/1/Page/10",
+      "block_type": "Page",
+      "html": "<content-ref src='/page/1/Text/0'></content-ref><content-ref src='/page/1/Text/1'></content-ref>",
+      "polygon": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          596.0,
+          0.0
+        ],
+        [
+          596.0,
+          842.0
+        ],
+        [
+          0.0,
+          842.0
+        ]
+      ],
+      "bbox": [
+        0.0,
+        0.0,
+        596.0,
+        842.0
+      ],
+      "children": [
+        {
+          "id": "/page/1/Text/0",
+          "block_type": "Text",
+          "html": "<p block-type=\"Text\">Place / Date Signature (Managing Director)</p>",
+          "polygon": [
+            [
+              56.45703125,
+              68.6591796875
+            ],
+            [
+              246.59959411621094,
+              68.6591796875
+            ],
+            [
+              246.59959411621094,
+              79.85845947265625
+            ],
+            [
+              56.45703125,
+              79.85845947265625
+            ]
+          ],
+          "bbox": [
+            56.45703125,
+            68.6591796875,
+            246.59959411621094,
+            79.85845947265625
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/7"
+          },
+          "images": {}
+        },
+        {
+          "id": "/page/1/Text/1",
+          "block_type": "Text",
+          "html": "<p block-type=\"Text\">____________________________ ____________________________________</p>",
+          "polygon": [
+            [
+              57.023616790771484,
+              58.85845947265625
+            ],
+            [
+              387.2875671386719,
+              58.85845947265625
+            ],
+            [
+              387.2875671386719,
+              67.85845947265625
+            ],
+            [
+              57.023616790771484,
+              67.85845947265625
+            ]
+          ],
+          "bbox": [
+            57.023616790771484,
+            58.85845947265625,
+            387.2875671386719,
+            67.85845947265625
+          ],
+          "children": null,
+          "section_hierarchy": {
+            "1": "/page/0/SectionHeader/0",
+            "2": "/page/0/SectionHeader/3",
+            "4": "/page/0/SectionHeader/7"
+          },
+          "images": {}
+        }
+      ],
+      "section_hierarchy": {
+        "1": "/page/0/SectionHeader/0",
+        "2": "/page/0/SectionHeader/3",
+        "4": "/page/0/SectionHeader/7"
+      },
+      "images": null
+    }
+  ],
+  "block_type": "Document",
+  "metadata": {
+    "table_of_contents": [
+      {
+        "title": "Loan Application for a Commercial Real Estate\nLoan - Company Profile",
+        "heading_level": null,
+        "page_id": 0,
+        "polygon": [
+          [
+            57.023616790771484,
+            60.84765625
+          ],
+          [
+            501.5835876464844,
+            60.84765625
+          ],
+          [
+            501.5835876464844,
+            105.25
+          ],
+          [
+            57.023616790771484,
+            105.25
+          ]
+        ]
+      },
+      {
+        "title": "1. Applicant",
+        "heading_level": null,
+        "page_id": 0,
+        "polygon": [
+          [
+            57.023616790771484,
+            133.4249267578125
+          ],
+          [
+            125.13671875,
+            132.7958984375
+          ],
+          [
+            125.13671875,
+            145.4249267578125
+          ],
+          [
+            57.023616790771484,
+            146.7744140625
+          ]
+        ]
+      },
+      {
+        "title": "2. Financial Request / Property Description",
+        "heading_level": null,
+        "page_id": 0,
+        "polygon": [
+          [
+            56.45703125,
+            303.4249267578125
+          ],
+          [
+            301.7635803222656,
+            303.0048828125
+          ],
+          [
+            301.7635803222656,
+            315.4249267578125
+          ],
+          [
+            55.29296875,
+            316.9833984375
+          ]
+        ]
+      },
+      {
+        "title": "3. Financing Proposal",
+        "heading_level": null,
+        "page_id": 0,
+        "polygon": [
+          [
+            56.166015625,
+            539.40625
+          ],
+          [
+            181.72760009765625,
+            537.76171875
+          ],
+          [
+            181.72760009765625,
+            551.4249267578125
+          ],
+          [
+            56.166015625,
+            551.4249267578125
+          ]
+        ]
+      },
+      {
+        "title": "4. Declaration & Signature",
+        "heading_level": null,
+        "page_id": 0,
+        "polygon": [
+          [
+            56.166015625,
+            709.4249114990234
+          ],
+          [
+            206.3996124267578,
+            708.79296875
+          ],
+          [
+            206.3996124267578,
+            721.4249038696289
+          ],
+          [
+            56.166015625,
+            721.4249038696289
+          ]
+        ]
+      }
+    ],
+    "page_stats": [
+      {
+        "page_id": 0,
+        "text_extraction_method": "pdftext",
+        "block_counts": [
+          [
+            "Span",
+            99
+          ],
+          [
+            "TableCell",
+            42
+          ],
+          [
+            "Line",
+            29
+          ],
+          [
+            "SectionHeader",
+            5
+          ],
+          [
+            "Table",
+            3
+          ],
+          [
+            "Text",
+            2
+          ]
+        ],
+        "block_metadata": {
+          "llm_request_count": 0,
+          "llm_error_count": 0,
+          "llm_tokens_used": 0,
+          "previous_text": "",
+          "previous_type": "",
+          "previous_order": 0
+        }
+      },
+      {
+        "page_id": 1,
+        "text_extraction_method": "pdftext",
+        "block_counts": [
+          [
+            "Span",
+            7
+          ],
+          [
+            "Text",
+            2
+          ],
+          [
+            "Line",
+            2
+          ]
+        ],
+        "block_metadata": {
+          "llm_request_count": 0,
+          "llm_error_count": 0,
+          "llm_tokens_used": 0,
+          "previous_text": "",
+          "previous_type": "",
+          "previous_order": 0
+        }
+      }
+    ],
+    "debug_data_path": "debug_data/loan_0001"
+  }
+}

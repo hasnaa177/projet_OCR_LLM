@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
@@ -41,7 +39,6 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
-  
 
   api:
     build: ./app          # Docker construit depuis le dossier app
@@ -54,16 +51,19 @@ services:
       minio:
         condition: service_healthy
     volumes:
-      - ./app:/app  
-      - ./data:/app/data      # Monte le dossier app local dans /app du conteneur
+      - ./app:/app
+      - ./data:/app/data 
+      - /uploads:/app/uploads     # Monte le dossier app local dans /app du conteneur
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 
+      - OCR_ENGINE=${OCR_ENGINE:-easyocr}
+      - PYTHONUNBUFFERED=1
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
 
 networks:
   shared-net:
-    external: true 
-    
+    external: true
+
 volumes:
   postgres_data:
   minio_data:

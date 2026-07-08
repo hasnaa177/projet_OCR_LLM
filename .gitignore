@@ -1,16 +1,7 @@
-# Variables d'environnement (contient des mots de passe)
-.env
-
+ocr_venv_1/
 data/
-
-# Python
+app/uploads/
+.env
 __pycache__/
-*.pyc
-*.pyo
-
-# Docker volumes
-postgres_data/
-minio_data/
-
-# VS Code
-.vscode/
+.ipynb_checkpoints/
+*.traineddata

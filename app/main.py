@@ -7,14 +7,14 @@ import json
 import re
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import PlainTextResponse
 from sqlalchemy import create_engine, text
 from minio import Minio
-import easyocr
-import numpy as np
-from pdf2image import convert_from_bytes
+
 from pydantic import BaseModel, Field
 from typing import Optional
 import ollama
+from ocr_engines import run_ocr, needs_easyocr_preprocessing
 
 # ==========================================
 # 1. SCHÉMA DE SORTIE STRICT (23 CHAMPS)
@@ -67,52 +67,91 @@ def pre_process_ocr_text(raw_text: str) -> str:
     cleaned = re.sub(r'(Desired Loan Amount|Term|Monthly Installment|Interest Rate|Early Repayment|Public Subsidies|Signature City|Signature Date)', r'\n\1', cleaned, flags=re.IGNORECASE)
 
     # --- FIX : recoller les mots qu'EasyOCR a coupés en deux tokens ---
-    # EasyOCR détecte parfois un mot comme deux boîtes adjacentes (ex: "P" + "erleberg"
-    # au lieu de "Perleberg", ou "J" + "antsch" au lieu de "Jäntsch"), ce qui produit
-    # une lettre isolée suivie d'un espace une fois les textes concaténés. On recolle
-    # cette lettre au mot minuscule qui suit, y compris en tout début de texte (un nom
-    # de société ou un nom de rue ne commence jamais par une initiale isolée suivie
-    # d'un mot ordinaire en minuscules -- ce n'est jamais une vraie initiale dans ce
-    # contexte de formulaire structuré). On exclut seulement le cas où la lettre suit
-    # un point final, qui correspond à une vraie initiale de personne (ex: "Dr. A Mueller").
-    # Limite connue : un cas du type "..., A general statement" en pleine prose serait
-    # incorrectement recollé, mais ce type de texte n'apparaît pas dans ces documents.
     cleaned = re.sub(r'(?<![.])\b([A-ZÄÖÜ])\s(?=[a-zäöüß]{2,}\b)', r'\1', cleaned)
 
     # --- FIX : retirer les symboles monétaires avant le LLM ---
-    # Le symbole € (et $, £) est parfois mal segmenté par EasyOCR sur des
-    # polices compressées ou en basse résolution, ce qui peut produire un
-    # chiffre fantôme collé devant le vrai montant (ex: "€720,000" devient
-    # "1720,000" dans le texte OCR brut, que le LLM retransmet ensuite tel
-    # quel comme 1720000 au lieu de 720000). On retire le symbole lui-même
-    # avant l'envoi au LLM pour éliminer cette source d'erreur à la racine.
     cleaned = re.sub(r'[€£$]\s*(?=\d)', '', cleaned)
 
     return cleaned
+
+
+def _clean_numeric_field(value):
+    """
+    Convertit une valeur numerique potentiellement mal typee par le LLM
+    (chaine avec symbole monetaire, virgules de milliers, espaces, unite
+    "m²"/"m2") en int/float propre. Retourne None si la conversion echoue.
+    """
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    if isinstance(value, str):
+        cleaned = value.strip()
+        cleaned = re.sub(r'[€$£]', '', cleaned)
+        cleaned = cleaned.replace('m²', '').replace('m2', '')
+        cleaned = cleaned.replace(',', '')
+        cleaned = cleaned.replace(' ', '')
+        if cleaned == '':
+            return None
+        try:
+            if '.' in cleaned:
+                return float(cleaned)
+            return int(cleaned)
+        except ValueError:
+            return None
+    return value
+
+
+def _clean_boolean_field(value):
+    """
+    Normalise un booleen potentiellement renvoye en chaine par le LLM
+    (ex: "true", "yes", "1") en vrai bool Python, ou None si ambigu.
+    """
+    if value is None or isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        v = value.strip().lower()
+        if v in ("true", "yes", "1", "x"):
+            return True
+        if v in ("false", "no", "0"):
+            return False
+    return None
 
 
 def post_process_extracted_data(data: dict) -> dict:
     """
     Nettoie la sortie du LLM pour corriger les écarts de FORMAT qui ne sont pas
     des erreurs d'extraction mais des erreurs de mise en forme (date ISO au lieu
-    de DD/MM/YYYY, espaces résiduels, nombres mal arrondis, etc.).
-    Cette étape est déterministe : elle ne devine rien, elle reformate.
+    de DD/MM/YYYY, nombres avec symboles monétaires ou virgules, booléens en
+    chaîne, espaces résiduels, etc.). Cette étape est déterministe : elle ne
+    devine rien, elle reformate.
     """
     if not data:
         return data
+
+    numeric_fields = [
+        "purchase_price", "financing_amount", "equity_contribution",
+        "total_area_m2", "desired_loan_amount", "monthly_installment",
+        "year_of_construction", "term_years"
+    ]
+    for field in numeric_fields:
+        if field in data:
+            data[field] = _clean_numeric_field(data[field])
+
+    boolean_fields = ["early_repayment", "public_subsidies"]
+    for field in boolean_fields:
+        if field in data:
+            data[field] = _clean_boolean_field(data[field])
 
     date_fields = ["date_of_incorporation", "signature_date"]
     for field in date_fields:
         value = data.get(field)
         if value and isinstance(value, str):
-            # Le LLM répond parfois en ISO (YYYY-MM-DD) malgré la consigne DD/MM/YYYY.
             iso_match = re.match(r'^(\d{4})-(\d{2})-(\d{2})$', value.strip())
             if iso_match:
                 year, month, day = iso_match.groups()
                 data[field] = f"{day}/{month}/{year}"
 
-    # Nettoyage des espaces multiples ou mal placés dans les champs texte
-    # (ex: "P erleberg" oublié en amont, "Bäblingen; Germany" avec un ';' parasite)
     text_fields = [
         "company_name", "business_address", "property_name",
         "property_address", "signature_city", "commercial_register"
@@ -124,12 +163,6 @@ def post_process_extracted_data(data: dict) -> dict:
             value = value.replace(' ,', ',').replace(' ;', ',').replace(';', ',')
             data[field] = value
 
-    # --- FIX : validation croisée de purchase_price ---
-    # Dans ce type de document, purchase_price == financing_amount + equity_contribution
-    # par construction. Si l'égalité ne tient pas, mais qu'elle tient en retirant le
-    # premier chiffre de purchase_price, c'est la signature d'un chiffre fantôme
-    # ajouté par une mauvaise lecture OCR d'un symbole monétaire (cf. pre_process_ocr_text).
-    # Ce filet de sécurité corrige les cas où le nettoyage en amont n'aurait pas suffi.
     price = data.get("purchase_price")
     financing = data.get("financing_amount")
     equity = data.get("equity_contribution")
@@ -145,121 +178,103 @@ def post_process_extracted_data(data: dict) -> dict:
     return data
 
 
-def extract_credit_info_with_llm(raw_text: str) -> dict:
+def _finalize_output(data: dict) -> dict:
     """
-    Envoie le texte structuré à Llama 3.1 avec une checklist impérative
-    pour forcer l'extraction complète des 23 champs requis.
+    Mise en forme finale AVANT stockage/reponse : reordonne les champs selon
+    l'ordre du schema, et convertit les floats "entiers" (ex: 4316000.0) en
+    int propre (4316000). Appelee uniquement dans l'endpoint /extract, sans
+    toucher a extract_credit_info_with_llm.
     """
-    if not raw_text.strip():
+    ordered = {}
+    for field_name in CreditExtractionSchema.model_fields.keys():
+        value = data.get(field_name)
+        if isinstance(value, float) and value.is_integer():
+            value = int(value)
+        ordered[field_name] = value
+    return ordered
+
+def extract_credit_info_with_llm(structured_text: str) -> dict:
+    """
+    Envoie le texte structuré à Llama 3.1 avec une checklist impérative des 23
+    champs, en forçant snake_case uniquement sur les CLES (pas les valeurs),
+    et valide/complete la reponse via le schema Pydantic pour garantir que
+    les 23 cles sont toujours presentes en sortie.
+    """
+    if not structured_text.strip():
         return {}
 
     ollama_url = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
     client = ollama.Client(host=ollama_url)
 
     prompt = f"""
-    You are an expert financial analyst. Analyze the following raw OCR text and extract EVERY single field listed in the targeted output format.
+    You are an expert financial analyst. Analyze the following document text and extract EVERY field listed below.
 
-    Raw document text:
+    Document text:
     ---
-    {raw_text}
+    {structured_text}
     ---
 
-    TARGETED FIELDS TO EXTRACT (Do not skip any):
+    FIELDS TO EXTRACT (use these EXACT snake_case keys, all 23 must appear in the output):
     1. company_name
     2. legal_form
     3. date_of_incorporation
     4. business_address
-    5. commercial_register (Format strictly as 'NUMBER / COURT' e.g. 'HRB 937055 / Sangerhausen Local Court')
+    5. commercial_register
     6. vat_id
     7. property_type
     8. property_name
     9. property_address
-    10. purchase_price (Number)
-    11. financing_amount (Number)
+    10. purchase_price
+    11. financing_amount
     12. purpose_of_use
-    13. equity_contribution (Number)
-    14. year_of_construction (Integer)
-    15. total_area_m2 (Number)
-    16. desired_loan_amount (Number)
-    17. term_years (Integer)
-    18. monthly_installment (Number)
+    13. equity_contribution
+    14. year_of_construction
+    15. total_area_m2
+    16. desired_loan_amount
+    17. term_years
+    18. monthly_installment
     19. interest_rate
-    20. early_repayment (Boolean)
-    21. public_subsidies (Boolean)
+    20. early_repayment
+    21. public_subsidies
     22. signature_city
     23. signature_date
 
     CRITICAL INSTRUCTIONS:
-    - You must find and include ALL 23 fields. Look closely at the text.
-    - Convert all financial/area/year values into clean numbers (remove '€', 'm²', spaces, or commas).
-    - If data for a field is present, map it correctly. Do not omit fields like 'property_address' or 'financing_amount'.
-    - For purchase_price, financing_amount and any monetary amount: copy the digits EXACTLY as they
-      appear in the source text. Do not add, remove, or guess any digit. If the number reads "1.572.000",
-      output 1572000 -- do not invent extra leading digits.
-    - NEVER merge two separate numbers that happen to be adjacent or on the same line in the raw text
-      (e.g. a page number, a field label number, or an unrelated figure sitting right before the actual
-      amount) into a single longer number. Each numeric field must come from exactly one distinct number
-      in the source text -- if a number looks unusually long for what is expected (e.g. an 8-digit price
-      where similar documents show 7 digits), re-check whether you accidentally concatenated two values.
-    - DATE FIELDS ARE COPY-ONLY, NOT CONVERT: for date_of_incorporation and signature_date,
-      find the date EXACTLY as written in the source text and copy its day/month/year digits
-      in the same DD/MM/YYYY order as in the source. Do NOT reinterpret, reorder, or convert
-      the date through any internal date format. For example, if the source text shows
-      "10/04/2014", the output must be exactly "10/04/2014" -- never "2014-10-04" and never
-      "04/10/2014". If you are unsure which number is the day and which is the month, keep
-      them in the exact same left-to-right order as they appear in the source text.
-    - For early_repayment and public_subsidies: these are two SEPARATE yes/no checkboxes in the
-      source document. Treat them independently -- do not let the state of one influence your guess
-      for the other. For each one individually: look for an explicit checkbox mark, or wording such as
-      "desired" / "requested" / "yes" (-> True) versus "not desired" / "not requested" / "no" / an
-      unchecked box (-> False). Quote mentally to yourself the exact phrase or checkbox state you saw
-      for early_repayment, and separately the exact phrase or checkbox state you saw for
-      public_subsidies, before deciding the two values. If you cannot find clear evidence for a field,
-      return null rather than guessing True or False.
-    - IMPORTANT layout detail about these checkboxes: the source document always lists the "yes"
-      option BEFORE the "no" option on the same line, in that fixed left-to-right order (e.g.
-      "[ ] yes [x] no" means NOT desired, "[x] yes [ ] no" means desired). The OCR sometimes fails
-      to capture an EMPTY checkbox (low contrast), so a line may show only ONE mark with no visible
-      brackets for the other option, e.g. just "x no" or "x yes". Read this literally: if the mark
-      sits immediately before the word "yes" with nothing else around it, that means the "yes" box
-      is checked (-> True). If the mark sits immediately before the word "no" with nothing else
-      around it, that means the "no" box is checked (-> False). Do not assume the opposite based on
-      what the OTHER field shows -- evaluate the literal local text "x yes" vs "x no" for THIS field
-      only, word by word, exactly as it appears.
-    - Preserve German special characters (ä, ö, ü, ß) exactly as found in the source text for names,
-      addresses and cities (e.g. "Böblingen", not "Bablingen"). Do not transliterate them.
+    - Only the KEYS of the JSON must be snake_case (e.g. company_name, purchase_price).
+      The VALUES themselves must be copied EXACTLY as written in the source text, preserving
+      original casing, spacing, punctuation and wording. Never convert a value into snake_case,
+      lowercase, or a slug -- e.g. if the source says "Entrepreneurial Company (UG)", the value
+      must stay "Entrepreneurial Company (UG)", NOT "entrepreneurial_company_ug".
+    - You must find and include ALL 23 fields. Look closely through the entire text, including
+      every row of every table -- do not stop partway through a section.
+    - Convert only financial/area/year VALUES into clean numbers (remove '€', 'm²', spaces, or commas).
+      Do not alter any other text value's wording.
+    - If a field is genuinely absent from the document, use null -- but only after checking carefully.
     """
 
     try:
         response = client.chat(
             model="llama3.1",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": "You are a precise data extraction engine. Output ONLY raw JSON matching the given schema exactly. Preserve original wording in values."},
+                {"role": "user", "content": prompt}
+            ],
             format=CreditExtractionSchema.model_json_schema(),
             options={"temperature": 0.0}
         )
         raw_content = response['message']['content']
-    except Exception as e:
-        import traceback
-        print(f"[EXTRACTION] Erreur lors de l'appel à Ollama : {e}")
-        traceback.print_exc()
-        return {}
-
-    try:
         raw_extracted = json.loads(raw_content)
-    except json.JSONDecodeError as e:
-        print(f"[EXTRACTION] Réponse Ollama non-JSON ou tronquée : {e}")
-        print(f"[EXTRACTION] Contenu brut reçu (premiers 1000 caractères) : {raw_content[:1000]!r}")
-        return {}
 
-    try:
-        return post_process_extracted_data(raw_extracted)
+        # Garantit que les 23 cles du schema sont toujours presentes (None si
+        # le LLM les a omises), sans jamais ecraser une valeur deja trouvee.
+        validated = CreditExtractionSchema(**raw_extracted)
+        complete_data = validated.model_dump()
+
+        return post_process_extracted_data(complete_data)
+
     except Exception as e:
-        import traceback
-        print(f"[EXTRACTION] Erreur dans le post-traitement : {e}")
-        traceback.print_exc()
-        # On retourne quand même les données brutes non post-traitées plutôt
-        # que de tout perdre si seul le post-traitement (cosmétique) plante.
-        return raw_extracted
+        print(f"[EXTRACTION ERROR] {e}")
+        return {}
 
 
 # ==========================================
@@ -296,6 +311,16 @@ def init_db():
                 created_at TIMESTAMP DEFAULT NOW()
             )
         """))
+
+        conn.execute(text("""
+            CREATE TABLE IF NOT EXISTS extractions (
+                id UUID PRIMARY KEY,
+                document_id UUID REFERENCES documents(id),
+                extracted_data JSONB NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        """))
+
         conn.commit()
 
 def get_minio_client():
@@ -350,42 +375,6 @@ def get_file(file_id: str, filename: str) -> bytes:
         with open(file_path, "rb") as f:
             return f.read()
     raise ValueError(f"Backend inconnu : {backend}")
-
-reader = None
-
-def get_ocr_reader():
-    global reader
-    if reader is None:
-        # Les documents traités contiennent des noms propres et adresses allemandes
-        # (Böblingen, Weiß, Jäntsch...). EasyOCR doit charger le jeu de caractères
-        # allemand pour reconnaître correctement les trémas (ä, ö, ü) et le ß ;
-        # sinon il les remplace par la lettre latine visuellement la plus proche
-        # (ö -> ä, ß -> l, etc.), ce qui était la cause de la moitié des erreurs.
-        reader = easyocr.Reader(['de', 'en'], gpu=False)
-    return reader
-
-def run_ocr(pdf_bytes: bytes) -> list:
-    pages = convert_from_bytes(pdf_bytes, dpi=200)
-    results = []
-    for page_number, page_image in enumerate(pages, start=1):
-        page_array = np.array(page_image)
-        ocr_result = get_ocr_reader().readtext(page_array)
-        boxes = []
-        full_text = []
-        for (bbox, text, confidence) in ocr_result:
-            cleaned_bbox = [[int(coord[0]), int(coord[1])] for coord in bbox]
-            boxes.append({
-                "text": text,
-                "confidence": round(float(confidence), 3),
-                "bbox": cleaned_bbox
-            })
-            full_text.append(text)
-        results.append({
-            "page_number": page_number,
-            "text": " ".join(full_text),
-            "bounding_boxes": boxes
-        })
-    return results
 
 
 # ==========================================
@@ -452,6 +441,18 @@ def get_ocr_results(doc_id: str):
         raise HTTPException(status_code=404, detail="Aucun résultat OCR trouvé pour ce document.")
     return [dict(r._mapping) for r in results]
 
+@app.get("/ocr/{doc_id}/markdown", response_class=PlainTextResponse)
+def get_ocr_markdown(doc_id: str):
+    with get_engine().connect() as conn:
+        results = conn.execute(
+            text("SELECT text FROM ocr_results WHERE document_id = :id ORDER BY page_number"),
+            {"id": doc_id}
+        ).fetchall()
+    if not results:
+        raise HTTPException(status_code=404, detail="Aucun résultat OCR trouvé pour ce document.")
+    full_text = "\n\n".join(row.text for row in results)
+    return full_text
+
 @app.post("/extract/{doc_id}")
 def trigger_extraction(doc_id: str):
     with get_engine().connect() as conn:
@@ -459,16 +460,52 @@ def trigger_extraction(doc_id: str):
     if not results:
         raise HTTPException(status_code=400, detail="Veuillez d'abord exécuter l'OCR sur ce document.")
 
-    # Fusionner le texte de toutes les pages
     full_document_text = " ".join([row.text for row in results])
 
-    # Appliquer le pré-traitement pour restructurer le texte
-    cleaned_document_text = pre_process_ocr_text(full_document_text)
+    cleaned_document_text = (
+        pre_process_ocr_text(full_document_text)
+        if needs_easyocr_preprocessing()
+        else full_document_text
+    )
 
-    # Extraire avec Llama 3.1
     extracted_data = extract_credit_info_with_llm(cleaned_document_text)
+    extracted_data = _finalize_output(extracted_data)
 
     with get_engine().connect() as conn:
+        conn.execute(text("""
+            INSERT INTO extractions (id, document_id, extracted_data, created_at)
+            VALUES (:id, :document_id, :extracted_data, :created_at)
+        """), {
+            "id": str(uuid.uuid4()),
+            "document_id": doc_id,
+            "extracted_data": json.dumps(extracted_data),
+            "created_at": datetime.utcnow()
+        })
         conn.execute(text("UPDATE documents SET status = 'extraction_complete' WHERE id = :id"), {"id": doc_id})
         conn.commit()
     return {"document_id": doc_id, "status": "extraction_complete", "extracted_data": extracted_data}
+
+
+
+from fastapi.responses import Response
+
+@app.get("/ocr/{doc_id}/visualize")
+def get_ocr_visualization(doc_id: str, page: int = 1):
+    """
+    Renvoie une image PNG de la page avec les zones detectees (tableaux, titres,
+    texte...) encadrees en rouge. Fonction additive, n'affecte pas /ocr ou /extract.
+    """
+    with get_engine().connect() as conn:
+        doc = conn.execute(text("SELECT * FROM documents WHERE id = :id"), {"id": doc_id}).fetchone()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document non trouvé.")
+
+    pdf_bytes = get_file(doc_id, doc.filename)
+
+    from ocr_engines.docling_engine import render_annotated_image
+    try:
+        image_bytes = render_annotated_image(pdf_bytes, page_number=page)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur de visualisation : {e}")
+
+    return Response(content=image_bytes, media_type="image/png")
