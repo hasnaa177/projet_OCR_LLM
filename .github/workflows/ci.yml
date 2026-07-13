@@ -15,6 +15,13 @@ jobs:
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
+      - name: Installer les dépendances du benchmark
+        run: |
+          python -m pip install --upgrade pip
+          pip install mlflow
+          # Si vous avez un fichier requirements.txt, préférez ceci :
+          # pip install -r requirements.txt  
+
       - name: Verifier la syntaxe Python
         run: |
           python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
