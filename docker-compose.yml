@@ -54,6 +54,7 @@ services:
       - ./app:/app
       - ./data:/app/data 
       - /uploads:/app/uploads     # Monte le dossier app local dans /app du conteneur
+      - ./data_scanee_150:/app/data_scanee_150
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
       - OCR_ENGINE=${OCR_ENGINE:-easyocr}

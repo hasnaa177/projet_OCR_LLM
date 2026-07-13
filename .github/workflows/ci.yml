@@ -1,0 +1,32 @@
+name: CI rapide
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verifier la syntaxe Python
+        run: |
+          pip install --quiet ast-tools 2>/dev/null || true
+          python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
+
+      - name: Build l'image Docker api
+        run: docker compose -f docker-compose.yml build api
+
+      - name: Verifier que le conteneur demarre (smoke test)
+        run: |
+          docker compose up -d postgres minio
+          docker compose up -d api
+          sleep 15
+          docker compose logs api | tail -50
+          curl -f http://localhost:8000/health || (docker compose logs api && exit 1)
+          docker compose down
+      - name: Lancer le benchmark avec seuil de sécurité
+        run: python mlops_docling.py --fail-under 90.0

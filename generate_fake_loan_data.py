@@ -228,7 +228,7 @@ def degrade_to_scanned(pdf_path: Path, out_path: Path) -> None:
     from PIL import Image, ImageFilter
     import numpy as np
 
-    pages = convert_from_path(str(pdf_path), dpi=150)
+    pages = convert_from_path(str(pdf_path), dpi=100)
     processed = []
     for img in pages:
         img = img.convert("L")                       # grayscale, like a scan

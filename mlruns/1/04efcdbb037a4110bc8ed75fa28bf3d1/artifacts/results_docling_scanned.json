@@ -1,0 +1,738 @@
+{
+  "summary": {
+    "engine": "docling",
+    "documents_processed": 6,
+    "total_fields": 138,
+    "total_correct": 133,
+    "total_incorrect": 0,
+    "total_hallucinated": 0,
+    "total_missing": 5,
+    "global_accuracy_pct": 96.38,
+    "avg_time_per_doc_seconds": 359.59,
+    "peak_memory_mib": 3460.1,
+    "run_duration_seconds": 2171.59,
+    "documents_per_minute": 0.17,
+    "perfect_document_rate_pct": 33.33,
+    "incorrect_rate_pct": 0.0,
+    "hallucination_rate_pct": 0.0,
+    "missing_rate_pct": 3.62,
+    "extraction_completeness_pct": 96.38,
+    "ocr_p50_seconds": 51.73,
+    "ocr_p95_seconds": 59.92,
+    "extract_p50_seconds": 282.36,
+    "extract_p95_seconds": 412.87,
+    "total_p50_seconds": 336.89,
+    "total_p95_seconds": 448.8,
+    "avg_ocr_char_count": 2030.2,
+    "source": "scanned"
+  },
+  "field_level": {
+    "company_name": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "legal_form": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "date_of_incorporation": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "business_address": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "commercial_register": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "vat_id": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "property_type": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "property_name": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "property_address": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "purchase_price": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "financing_amount": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "purpose_of_use": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "equity_contribution": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "year_of_construction": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "total_area_m2": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "desired_loan_amount": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "term_years": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "monthly_installment": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "interest_rate": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "public_subsidies": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 3,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 50.0
+    },
+    "signature_city": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "signature_date": {
+      "correct": 6,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "early_repayment": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 2,
+      "hallucinated": 0,
+      "total": 6,
+      "accuracy_pct": 66.67
+    }
+  },
+  "category_stats": {
+    "numeric": {
+      "correct": 48,
+      "total": 48,
+      "accuracy_pct": 100.0
+    },
+    "boolean": {
+      "correct": 7,
+      "total": 12,
+      "accuracy_pct": 58.33
+    },
+    "date": {
+      "correct": 12,
+      "total": 12,
+      "accuracy_pct": 100.0
+    },
+    "text": {
+      "correct": 66,
+      "total": 66,
+      "accuracy_pct": 100.0
+    }
+  },
+  "documents": [
+    {
+      "doc_id_ref": "loan_0001",
+      "document_id": "7e729f14-42ca-4ce3-b349-073592fc7cbd",
+      "timings": {
+        "ocr_seconds": 32.42,
+        "extract_seconds": 426.59,
+        "total_seconds": 459.01
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2157.6,
+          "avg_mib": 1861.9,
+          "samples": 16
+        },
+        "extract": {
+          "peak_mib": 1874.9,
+          "avg_mib": 1693.3,
+          "samples": 206
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 22,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 95.65
+      },
+      "extracted_data": {
+        "company_name": "Junck GmbH & Co. KG UG",
+        "legal_form": "Limited Partnership (KG)",
+        "date_of_incorporation": "03/02/2002",
+        "business_address": "Annegrete-Bähr-Gasse 106, 42670 Peine, Germany",
+        "commercial_register": "HRB 698663 / Peine Local Court",
+        "vat_id": "DE649201389",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Vielleicht Center Peine",
+        "property_address": "Sibylla-Trupp-Platz 153, 10719 Peine, Germany",
+        "purchase_price": 1674000,
+        "financing_amount": 1305000,
+        "purpose_of_use": "Purchase",
+        "equity_contribution": 369000,
+        "year_of_construction": 1991,
+        "total_area_m2": 5698,
+        "desired_loan_amount": 1305000,
+        "term_years": 10,
+        "monthly_installment": 14400,
+        "interest_rate": "Fixed",
+        "early_repayment": null,
+        "public_subsidies": true,
+        "signature_city": "Peine",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 2068
+    },
+    {
+      "doc_id_ref": "loan_0002",
+      "document_id": "ae0ec28c-87ef-4e68-bde9-3c39bf4e1e78",
+      "timings": {
+        "ocr_seconds": 54.1,
+        "extract_seconds": 285.29,
+        "total_seconds": 339.39
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2558.0,
+          "avg_mib": 2112.3,
+          "samples": 27
+        },
+        "extract": {
+          "peak_mib": 2202.6,
+          "avg_mib": 2202.6,
+          "samples": 141
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 22,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "public_subsidies",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 95.65
+      },
+      "extracted_data": {
+        "company_name": "Pieper Henk GmbH GmbH",
+        "legal_form": "Sole Proprietorship",
+        "date_of_incorporation": "07/01/2024",
+        "business_address": "Stumpfweg 193, 38498 Eberswalde, Germany",
+        "commercial_register": "HRB 408204 / Eberswalde Local Court",
+        "vat_id": "DE527364504",
+        "property_type": "Industrial Facility",
+        "property_name": "Gestern Center Eberswalde",
+        "property_address": "Margret-Vollbrecht-Allee 30, 94551 Eberswalde, Germany",
+        "purchase_price": 564000,
+        "financing_amount": 482000,
+        "purpose_of_use": "Purchase",
+        "equity_contribution": 82000,
+        "year_of_construction": 2008,
+        "total_area_m2": 5275,
+        "desired_loan_amount": 482000,
+        "term_years": 10,
+        "monthly_installment": 5100,
+        "interest_rate": "Fixed",
+        "early_repayment": true,
+        "public_subsidies": null,
+        "signature_city": "Eberswalde",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 2112
+    },
+    {
+      "doc_id_ref": "loan_0003",
+      "document_id": "70e26151-c28c-492e-a130-b930a1af6bb3",
+      "timings": {
+        "ocr_seconds": 54.97,
+        "extract_seconds": 279.43,
+        "total_seconds": 334.4
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2784.3,
+          "avg_mib": 2319.9,
+          "samples": 28
+        },
+        "extract": {
+          "peak_mib": 2184.2,
+          "avg_mib": 2184.1,
+          "samples": 137
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 21,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": false
+          },
+          {
+            "field": "public_subsidies",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 91.3
+      },
+      "extracted_data": {
+        "company_name": "Gorlitz AG",
+        "legal_form": "Entrepreneurial Company (UG)",
+        "date_of_incorporation": "30/05/2011",
+        "business_address": "Arif-Heß-Platz 158, 52191 Perleberg, Germany",
+        "commercial_register": "HRB 421736 / Perleberg Local Court",
+        "vat_id": "DE251014625",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Zeitung Center Perleberg",
+        "property_address": "Hölzenbecherstraße 190, 98131 Perleberg, Germany",
+        "purchase_price": 675000,
+        "financing_amount": 486000,
+        "purpose_of_use": "Modernization",
+        "equity_contribution": 189000,
+        "year_of_construction": 2000,
+        "total_area_m2": 4456,
+        "desired_loan_amount": 486000,
+        "term_years": 10,
+        "monthly_installment": 5100,
+        "interest_rate": "Fixed",
+        "early_repayment": null,
+        "public_subsidies": null,
+        "signature_city": "Perleberg",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 2051
+    },
+    {
+      "doc_id_ref": "loan_0004",
+      "document_id": "8e7fd5bd-66ab-475d-b01f-1941909d3fbe",
+      "timings": {
+        "ocr_seconds": 49.36,
+        "extract_seconds": 237.17,
+        "total_seconds": 286.53
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2936.8,
+          "avg_mib": 2450.6,
+          "samples": 25
+        },
+        "extract": {
+          "peak_mib": 2329.6,
+          "avg_mib": 2329.6,
+          "samples": 118
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "company_name": "Jacobi Jäckel AG",
+        "legal_form": "Limited Liability Company (GmbH)",
+        "date_of_incorporation": "31/05/2002",
+        "business_address": "Drubinplatz 5, 62550 Perleberg, Germany",
+        "commercial_register": "HRB 708772 / Perleberg Local Court",
+        "vat_id": "DE307890327",
+        "property_type": "Office and Commercial Building",
+        "property_name": "Dabei Center Perleberg",
+        "property_address": "Zirmestr. 78, 79437 Perleberg, Germany",
+        "purchase_price": 511000,
+        "financing_amount": 379000,
+        "purpose_of_use": "Modernization",
+        "equity_contribution": 132000,
+        "year_of_construction": 1995,
+        "total_area_m2": 4742,
+        "desired_loan_amount": 379000,
+        "term_years": 20,
+        "monthly_installment": 2100,
+        "interest_rate": "Variable",
+        "early_repayment": true,
+        "public_subsidies": true,
+        "signature_city": "Perleberg",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 1931
+    },
+    {
+      "doc_id_ref": "loan_0005",
+      "document_id": "955fd4af-4ce0-47d9-96d0-be5390d0d8e2",
+      "timings": {
+        "ocr_seconds": 46.48,
+        "extract_seconds": 371.7,
+        "total_seconds": 418.18
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 3196.9,
+          "avg_mib": 2753.2,
+          "samples": 24
+        },
+        "extract": {
+          "peak_mib": 2795.5,
+          "avg_mib": 2793.5,
+          "samples": 183
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "company_name": "Krein GbR UG",
+        "legal_form": "Sole Proprietorship",
+        "date_of_incorporation": "13/09/2004",
+        "business_address": "Kunigunde-Haering-Platz 24, 75622 Pößneck, Germany",
+        "commercial_register": "HRB 958432 / Pößneck Local Court",
+        "vat_id": "DE222505193",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Jahr Center Pößneck",
+        "property_address": "Eckbauerstraße 123, 00180 Pößneck, Germany",
+        "purchase_price": 1951000,
+        "financing_amount": 1674000,
+        "purpose_of_use": "Refinancing",
+        "equity_contribution": 277000,
+        "year_of_construction": 2016,
+        "total_area_m2": 2131,
+        "desired_loan_amount": 1674000,
+        "term_years": 15,
+        "monthly_installment": 12800,
+        "interest_rate": "Variable",
+        "early_repayment": true,
+        "public_subsidies": false,
+        "signature_city": "Pößneck",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 2022
+    },
+    {
+      "doc_id_ref": "loan_0006",
+      "document_id": "490441fc-440f-472f-9cda-e20b54e47d53",
+      "timings": {
+        "ocr_seconds": 61.57,
+        "extract_seconds": 258.46,
+        "total_seconds": 320.03
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 3460.1,
+          "avg_mib": 2996.3,
+          "samples": 30
+        },
+        "extract": {
+          "peak_mib": 2751.5,
+          "avg_mib": 2749.5,
+          "samples": 127
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 22,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "public_subsidies",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 95.65
+      },
+      "extracted_data": {
+        "company_name": "Hartung UG",
+        "legal_form": "Stock Corporation (AG)",
+        "date_of_incorporation": "05/08/2004",
+        "business_address": "Notburga-Paffrath-Straße 122, 17724 Soltau, Germany",
+        "commercial_register": "HRB 226754 / Soltau Local Court",
+        "vat_id": "DE176323704",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Dabei Center Soltau",
+        "property_address": "Tlustekring 87, 20713 Soltau, Germany",
+        "purchase_price": 2304000,
+        "financing_amount": 1825000,
+        "purpose_of_use": "Refinancing",
+        "equity_contribution": 479000,
+        "year_of_construction": 2006,
+        "total_area_m2": 1782,
+        "desired_loan_amount": 1825000,
+        "term_years": 15,
+        "monthly_installment": 12000,
+        "interest_rate": "Fixed",
+        "early_repayment": true,
+        "public_subsidies": null,
+        "signature_city": "Soltau",
+        "signature_date": "12/07/2026"
+      },
+      "ocr_char_count": 1997
+    }
+  ]
+}

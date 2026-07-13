@@ -58,10 +58,7 @@ class CreditExtractionSchema(BaseModel):
 # 2. FONCTIONS DE TRAITEMENT ET IA
 # ==========================================
 def pre_process_ocr_text(raw_text: str) -> str:
-    """
-    Aère et structure le texte brut d'EasyOCR pour éviter que les lignes collées
-    ne fassent sauter des champs clés au LLM.
-    """
+    
     if not raw_text:
         return ""
     cleaned = re.sub(r'(Property Name|Property Address|Steuergasse)', r'\n\1', raw_text, flags=re.IGNORECASE)
@@ -78,11 +75,7 @@ def pre_process_ocr_text(raw_text: str) -> str:
 
 
 def _clean_numeric_field(value):
-    """
-    Convertit une valeur numerique potentiellement mal typee par le LLM
-    (chaine avec symbole monetaire, virgules de milliers, espaces, unite
-    "m²"/"m2") en int/float propre. Retourne None si la conversion echoue.
-    """
+  
     if value is None:
         return None
     if isinstance(value, (int, float)):
@@ -105,10 +98,7 @@ def _clean_numeric_field(value):
 
 
 def _clean_boolean_field(value):
-    """
-    Normalise un booleen potentiellement renvoye en chaine par le LLM
-    (ex: "true", "yes", "1") en vrai bool Python, ou None si ambigu.
-    """
+    
     if value is None or isinstance(value, bool):
         return value
     if isinstance(value, str):
@@ -121,13 +111,7 @@ def _clean_boolean_field(value):
 
 
 def post_process_extracted_data(data: dict) -> dict:
-    """
-    Nettoie la sortie du LLM pour corriger les écarts de FORMAT qui ne sont pas
-    des erreurs d'extraction mais des erreurs de mise en forme (date ISO au lieu
-    de DD/MM/YYYY, nombres avec symboles monétaires ou virgules, booléens en
-    chaîne, espaces résiduels, etc.). Cette étape est déterministe : elle ne
-    devine rien, elle reformate.
-    """
+
     if not data:
         return data
 
@@ -181,12 +165,7 @@ def post_process_extracted_data(data: dict) -> dict:
 
 
 def _finalize_output(data: dict) -> dict:
-    """
-    Mise en forme finale AVANT stockage/reponse : reordonne les champs selon
-    l'ordre du schema, et convertit les floats "entiers" (ex: 4316000.0) en
-    int propre (4316000). Appelee uniquement dans l'endpoint /extract, sans
-    toucher a extract_credit_info_with_llm.
-    """
+    
     ordered = {}
     for field_name in CreditExtractionSchema.model_fields.keys():
         value = data.get(field_name)
@@ -196,12 +175,7 @@ def _finalize_output(data: dict) -> dict:
     return ordered
 
 def extract_credit_info_with_llm(structured_text: str) -> dict:
-    """
-    Envoie le texte structuré à Llama 3.1 avec une checklist impérative des 23
-    champs, en forçant snake_case uniquement sur les CLES (pas les valeurs),
-    et valide/complete la reponse via le schema Pydantic pour garantir que
-    les 23 cles sont toujours presentes en sortie.
-    """
+    
     if not structured_text.strip():
         return {}
 
@@ -555,3 +529,61 @@ def get_ocr_visualization(doc_id: str, page: int = 1):
         raise HTTPException(status_code=500, detail=f"Erreur de visualisation : {e}")
 
     return Response(content=image_bytes, media_type="image/png")
+def get_extracted_data_from_db(document_id: str) -> dict:
+    with get_engine().connect() as conn:
+        result = conn.execute(
+            text("SELECT extracted_data FROM extractions WHERE document_id = :id ORDER BY created_at DESC LIMIT 1"),
+            {"id": document_id}
+        ).fetchone()
+    if not result:
+        raise HTTPException(status_code=404, detail="Aucune extraction trouvée pour ce document.")
+    return result.extracted_data
+
+
+def find_differences(extracted: dict, ground_truth: dict) -> list:
+    """
+    Compare chaque champ et renvoie une liste détaillée des erreurs.
+    """
+    differences = []
+    
+    # On itère sur tous les champs attendus dans la vérité terrain
+    for key, expected_value in ground_truth.items():
+        # Conversion en string pour éviter les erreurs de type (int vs string)
+        val_ext = str(extracted.get(key, "N/A")).lower().strip()
+        val_gt = str(expected_value).lower().strip()
+        
+        if val_ext != val_gt:
+            differences.append({
+                "field": key,
+                "expected": expected_value,
+                "extracted": extracted.get(key, "MISSING")
+            })
+            
+    return differences
+
+@app.get("/compare/{document_id}")
+def compare_results(document_id: str):
+    extracted_data = get_extracted_data_from_db(document_id)
+
+    with get_engine().connect() as conn:
+        doc = conn.execute(text("SELECT filename FROM documents WHERE id = :id"), {"id": document_id}).fetchone()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document non trouvé.")
+
+    gt_stem = Path(doc.filename).stem  # "loan_0001.pdf" -> "loan_0001"
+    gt_path = Path(f"./data_scanee_150/ground_truth/{gt_stem}.json")
+    if not gt_path.exists():
+        raise HTTPException(status_code=404, detail=f"Vérité terrain introuvable pour {gt_stem}.")
+    with open(gt_path, "r", encoding="utf-8") as f:
+        ground_truth_data = json.load(f)
+
+    diffs = find_differences(extracted_data, ground_truth_data)
+    total_fields = len(ground_truth_data)
+    correct_fields = total_fields - len(diffs)
+    accuracy = (correct_fields / total_fields) * 100 if total_fields else 0
+
+    return {
+        "accuracy": round(accuracy, 2),
+        "total_fields": total_fields,
+        "errors": diffs
+    }

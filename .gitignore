@@ -6,3 +6,8 @@ __pycache__/
 .ipynb_checkpoints/
 *.traineddata
 /data
+data_scanee/
+data_scanee_50/
+data_scanee_70/
+data_scanee_100/
+data_scanee_150/
