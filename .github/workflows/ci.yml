@@ -28,10 +28,7 @@ jobs:
           docker compose logs api | tail -50
           curl -f http://localhost:8000/health || (docker compose logs api && exit 1)
           docker compose down
-      - name: Créer un fichier .env temporaire
-        run: |
-          echo "VARIABLE_1=valeur1" > .env
-          echo "VARIABLE_2=valeur2" >> .env
-          # Ajoutez ici toutes les variables dont votre docker-compose a besoin
+      - name: Créer le fichier .env depuis les secrets
+        run: echo "${{ secrets.ENV_FILE }}" > .env
       - name: Lancer le benchmark avec seuil de sécurité
         run: python mlops_docling.py --fail-under 90.0
