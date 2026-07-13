@@ -13,11 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache du modele Ollama
-        uses: actions/cache@v4
-        with:
-          path: ~/.ollama
-          key: ollama-llama3.1-${{ runner.os }}
+      - name: Créer le fichier .env depuis les secrets
+        run: echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Lancer la stack complete
         run: docker compose up -d --build
@@ -29,7 +26,7 @@ jobs:
             sleep 5
           done
 
-      - name: Telecharger le modele Ollama (si pas deja en cache)
+      - name: Telecharger le modele Ollama
         run: docker compose exec -T ollama ollama pull llama3.1
 
       - name: Installer les dependances du benchmark

@@ -12,9 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Créer le fichier .env depuis les secrets
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Verifier la syntaxe Python
         run: |
-          pip install --quiet ast-tools 2>/dev/null || true
           python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
 
       - name: Build l'image Docker api
@@ -28,7 +30,6 @@ jobs:
           docker compose logs api | tail -50
           curl -f http://localhost:8000/health || (docker compose logs api && exit 1)
           docker compose down
-      - name: Créer le fichier .env depuis les secrets
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Lancer le benchmark avec seuil de sécurité
-        run: python mlops_docling.py --fail-under 90.0
+        run: python mlops_docling.py --engine docling --fail-under 90.0
