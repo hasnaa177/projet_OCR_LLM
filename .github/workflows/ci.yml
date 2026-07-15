@@ -15,13 +15,6 @@ jobs:
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Installer les dépendances du benchmark
-        run: |
-          python -m pip install --upgrade pip
-          pip install mlflow
-          # Si vous avez un fichier requirements.txt, préférez ceci :
-          # pip install -r requirements.txt  
-
       - name: Verifier la syntaxe Python
         run: |
           python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
@@ -37,6 +30,3 @@ jobs:
           docker compose logs api | tail -50
           curl -f http://localhost:8000/health || (docker compose logs api && exit 1)
           docker compose down
-
-      - name: Lancer le benchmark avec seuil de sécurité
-        run: python mlops_docling.py --engine docling --fail-under 90.0

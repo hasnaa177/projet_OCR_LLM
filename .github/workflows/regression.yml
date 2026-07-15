@@ -1,9 +1,9 @@
 name: Test de regression complet
 
 on:
-  workflow_dispatch:      # declenchement manuel depuis l'onglet Actions
+  workflow_dispatch:
   push:
-    branches: [main]      # ou seulement sur main, pas toutes les branches
+    branches: [main]
 
 jobs:
   full-pipeline-test:
@@ -16,7 +16,14 @@ jobs:
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
+      - name: Installer DVC et recuperer le dataset
+        run: |
+          pip install dvc
+          dvc pull data/pdfs data/ground_truth
+
       - name: Lancer la stack complete
+        env:
+          COMPOSE_PROJECT_NAME: pfa-ocr
         run: docker compose up -d --build
 
       - name: Attendre que les services soient prets
@@ -44,4 +51,4 @@ jobs:
 
       - name: Arreter la stack
         if: always()
-        run: docker compose down
+        run: docker compose down        run: docker compose down
