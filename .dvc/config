@@ -2,3 +2,7 @@
     remote = local_storage
 ['remote "local_storage"']
     url = C:\dvc_storage
+['remote "gdrive_ci"']
+    url = gdrive://1LMexJgICMn131u3Er30KwcDPIXrCxKAw
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = C:\Users\saadi\Downloads\projet-ocr.json

@@ -5,7 +5,6 @@ app/uploads/
 __pycache__/
 .ipynb_checkpoints/
 *.traineddata
-/data
 data_scanee/
 data_scanee_50/
 data_scanee_70/
