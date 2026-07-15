@@ -16,11 +16,7 @@ jobs:
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Installer DVC et recuperer le dataset
-        run: |
-          pip install dvc
-          dvc pull data/pdfs data/ground_truth
-
+      
       - name: Lancer la stack complete
         env:
           COMPOSE_PROJECT_NAME: pfa-ocr
@@ -39,4 +35,16 @@ jobs:
       - name: Installer les dependances du benchmark
         run: pip install requests mlflow
 
-      
+      - name: Lancer le benchmark avec seuil de regression
+        run: python mlops_docling.py --engine docling --fail-under 75
+
+      - name: Recuperer les resultats en artefact (meme en cas d'echec)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmark_results/
+
+      - name: Arreter la stack
+        if: always()
+        run: docker compose down
