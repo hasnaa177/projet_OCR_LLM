@@ -1,9 +1,9 @@
 name: Test de regression complet
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:      # declenchement manuel depuis l'onglet Actions
   push:
-    branches: [main]
+    branches: [main]      # ou seulement sur main, pas toutes les branches
 
 jobs:
   full-pipeline-test:
@@ -16,10 +16,7 @@ jobs:
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
-      
       - name: Lancer la stack complete
-        env:
-          COMPOSE_PROJECT_NAME: pfa-ocr
         run: docker compose up -d --build
 
       - name: Attendre que les services soient prets
