@@ -1,4 +1,4 @@
-name: CI rapide
+name: CI
 
 on:
   push:
@@ -7,37 +7,67 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-build:
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
+      # 1. Le .env doit exister AVANT tout appel a `docker compose`,
+      #    sinon docker-compose.yml echoue a l'interpolation de ses variables.
       - name: Créer le fichier .env depuis les secrets
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
+      # 2. Verification rapide (typos/erreurs de syntaxe) avant de lancer Docker,
+      #    pour echouer vite si le code ne compile meme pas.
       - name: Verifier la syntaxe Python
         run: |
           python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
 
-      - name: Build l'image Docker api
-        run: docker compose -f docker-compose.yml build api
+      # 3. Build + demarrage de TOUTE la stack, y compris ollama (oublie dans
+      #    une version precedente -- sans lui, /extract renvoie toujours {}
+      #    et le seuil de precision echoue systematiquement, meme si tout
+      #    le reste fonctionne).
+      - name: Demarrer la stack complete
+        run: docker compose up -d --build
 
-      - name: Verifier que le conteneur demarre (smoke test)
+      # 4. Attente active plutot qu'un `sleep` fixe : plus fiable si le
+      #    demarrage est parfois plus lent (charge du runner variable).
+      - name: Attendre que l'API soit prete
         run: |
-          docker compose up -d postgres minio
-          docker compose up -d api
-          sleep 15
-          docker compose logs api | tail -50
-          curl -f http://localhost:8000/health || (docker compose logs api && exit 1)
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8000/health && break
+            sleep 5
+          done
+          curl -f http://localhost:8000/health || (docker compose logs api --tail=100 && exit 1)
+
+      # 5. Le modele n'est jamais pre-charge automatiquement par docker-compose ;
+      #    sans cette etape, l'appel LLM plante silencieusement (voir plus haut).
+      - name: Telecharger le modele Ollama
+        run: docker compose exec -T ollama ollama pull llama3.1
 
       - name: Installer les dependances du benchmark
         run: pip install requests mlflow
 
+      # 6. MLFLOW_TRACKING_URI pointe vers un dossier neuf a chaque run :
+      #    aucune metadonnee locale (ex: mlruns/ commite par erreur depuis
+      #    une machine Windows) ne peut interferer avec la CI.
       - name: Lancer le benchmark avec seuil de sécurité
         env:
           MLFLOW_TRACKING_URI: file:./mlruns_ci
+          MLFLOW_ALLOW_FILE_STORE: "true"
         run: python mlops_docling.py --engine docling --fail-under 90.0
 
+      # 7. Toujours recuperer les resultats, meme (et surtout) en cas d'echec,
+      #    pour diagnostiquer sans devoir tout relancer en local.
+      - name: Recuperer les resultats en artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmark_results/
+
+      # 8. Toujours nettoyer, meme si une etape precedente a echoue.
       - name: Arreter la stack
         if: always()
         run: docker compose down
