@@ -1,5 +1,5 @@
 ocr_venv_1/
-data/
+
 app/uploads/
 .env
 __pycache__/

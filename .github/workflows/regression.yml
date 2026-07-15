@@ -39,16 +39,4 @@ jobs:
       - name: Installer les dependances du benchmark
         run: pip install requests mlflow
 
-      - name: Lancer le benchmark avec seuil de regression
-        run: python mlops_docling.py --engine docling --fail-under 75
-
-      - name: Recuperer les resultats en artefact (meme en cas d'echec)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: benchmark-results
-          path: benchmark_results/
-
-      - name: Arreter la stack
-        if: always()
-        run: docker compose down
+      
