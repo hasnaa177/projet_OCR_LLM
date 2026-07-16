@@ -1,0 +1,6 @@
+outs:
+- md5: 209dc80dc6c0e6fcb2762d1a4b8fb8b5.dir
+  size: 2243466
+  nfiles: 31
+  hash: md5
+  path: data_scanee_100

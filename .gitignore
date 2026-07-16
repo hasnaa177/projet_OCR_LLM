@@ -11,3 +11,6 @@ data_scanee_70/
 data_scanee_100/
 data_scanee_150/
 mlruns/ 
+/data_scanee_100
+ mlflow.db
+ mlflow_artifacts/

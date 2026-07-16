@@ -496,7 +496,7 @@ def process_document(doc_id_ref: str, pdf_path: Path, gt: dict, sampler: MemoryS
 # ==========================================
 # 4. RUN COMPLET SUR LE DATASET (+ tracking MLflow)
 # ==========================================
-def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pdfs", fail_under=None):
+def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pdfs", fail_under=None, data_dir: Path = None):
     print(f"Verification de l'API...")
     try:
         resp = requests.get(f"{API_URL}/health", timeout=5)
@@ -506,9 +506,12 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
         print("L'API FastAPI n'est pas accessible.")
         return
 
-    index_file = DATA_DIR / "index.json"
+    if data_dir is None:
+        data_dir = DATA_DIR
+
+    index_file = data_dir / "index.json"
     if not index_file.exists():
-        print(f"index.json introuvable dans {DATA_DIR}")
+        print(f"index.json introuvable dans {data_dir}")
         return
 
     with open(index_file, encoding="utf-8") as f:
@@ -517,12 +520,12 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
     # Dossier source des PDF : "pdfs" (propres) ou "scanned" (degrades, generes
     # par generate_fake_loan_data.py --degrade). Meme doc_id, meme ground_truth/
     # pour les deux -- seul le rendu visuel du PDF change.
-    pdf_source_dir = DATA_DIR / SOURCE_FOLDERS[source]
+    pdf_source_dir = data_dir / SOURCE_FOLDERS[source]
     if not pdf_source_dir.exists():
         print(f"Dossier introuvable : {pdf_source_dir}")
         if source == "scanned":
             print("Generez d'abord les versions scannees avec :")
-            print(f"  python generate_fake_loan_data.py --count {len(index)} --outdir {DATA_DIR} --degrade")
+            print(f"  python generate_fake_loan_data.py --count {len(index)} --outdir {data_dir} --degrade")
         return
     print(f"Source des PDF : {pdf_source_dir}")
 
@@ -557,8 +560,7 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
         for i, item in enumerate(index, 1):
             doc_id = item["document_id"]
             pdf_path = pdf_source_dir / f"{doc_id}.pdf"
-            gt_path = DATA_DIR / "ground_truth" / f"{doc_id}.json"
-
+            gt_path = data_dir / "ground_truth" / f"{doc_id}.json"
             if not pdf_path.exists() or not gt_path.exists():
                 print(f"[{i}/{len(index)}] Fichiers manquants pour {doc_id} "
                       f"(pdf={pdf_path.exists()}, ground_truth={gt_path.exists()}), ignore.")
@@ -673,6 +675,22 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
 
         mlflow.log_artifact(str(output_path))
         mlflow.log_artifact(str(csv_path))
+
+
+
+        # --- Enregistrement dans le Model Registry (nouvelle version) ---
+        from mlflow_registry import register_pipeline_model
+        register_pipeline_model(
+            engine=engine_label,
+            llm_model=LLM_MODEL,
+            prompt_version=PROMPT_VERSION,
+            accuracy_pct=summary["global_accuracy_pct"],
+            registered_model_name="pfa-ocr-pipeline",
+            stage="Staging" if summary["global_accuracy_pct"] >= 80 else None,
+        )
+
+
+
 
         print("=" * 60)
         print(f"Resume pour '{engine_label}' (source: {source}) :")
@@ -799,13 +817,20 @@ def main():
              "(versions degradees generees par generate_fake_loan_data.py --degrade). "
              "S'applique a --engine comme a --compare.",
     )
+    parser.add_argument(
+        "--data-dir", type=str, default="./data",
+        help="Dossier racine du dataset a utiliser (defaut: ./data). "
+             "Ex: ./data_scanee_100 pour tester sur les PDF degrades a 100 DPI.",
+    )
     args = parser.parse_args()
 
     show_errors = not args.quiet_errors
 
     if args.engine:
-        run_benchmark(args.engine, show_errors=show_errors, source=args.source, fail_under=args.fail_under)
-        
+        run_benchmark(
+            args.engine, show_errors=show_errors, source=args.source,
+            fail_under=args.fail_under, data_dir=Path(args.data_dir),
+        )
     elif args.compare:
         compare_engines(args.compare[0], args.compare[1], show_errors=show_errors, source=args.source)
     else:
