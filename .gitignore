@@ -12,5 +12,9 @@ data_scanee_100/
 data_scanee_150/
 mlruns/ 
 /data_scanee_100
- mlflow.db
- mlflow_artifacts/
+mlflow.db
+mlflow_artifacts/
+
+data_scanee_80/
+data_scanne_150/
+benchmark_results/

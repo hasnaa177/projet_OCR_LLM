@@ -182,50 +182,54 @@ def extract_credit_info_with_llm(structured_text: str) -> dict:
     ollama_url = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
     client = ollama.Client(host=ollama_url)
 
-    prompt = f"""
-    You are an expert financial analyst. Analyze the following document text and extract EVERY field listed below.
+prompt = f"""
+    You are a document-extraction engine. Extract structured data from the text below
+    into a single JSON object with EXACTLY the 23 keys listed, each with its expected type.
 
     Document text:
     ---
     {structured_text}
     ---
 
-    FIELDS TO EXTRACT (use these EXACT snake_case keys, all 23 must appear in the output):
-    1. company_name
-    2. legal_form
-    3. date_of_incorporation
-    4. business_address
-    5. commercial_register
-    6. vat_id
-    7. property_type
-    8. property_name
-    9. property_address
-    10. purchase_price
-    11. financing_amount
-    12. purpose_of_use
-    13. equity_contribution
-    14. year_of_construction
-    15. total_area_m2
-    16. desired_loan_amount
-    17. term_years
-    18. monthly_installment
-    19. interest_rate
-    20. early_repayment
-    21. public_subsidies
-    22. signature_city
-    23. signature_date
+    SCHEMA (key: type -- description):
+    1. company_name: string
+    2. legal_form: string
+    3. date_of_incorporation: string (date)
+    4. business_address: string
+    5. commercial_register: string
+    6. vat_id: string
+    7. property_type: string
+    8. property_name: string
+    9. property_address: string
+    10. purchase_price: number
+    11. financing_amount: number
+    12. purpose_of_use: string
+    13. equity_contribution: number
+    14. year_of_construction: number
+    15. total_area_m2: number
+    16. desired_loan_amount: number
+    17. term_years: number
+    18. monthly_installment: number
+    19. interest_rate: string
+    20. early_repayment: boolean
+    21. public_subsidies: boolean
+    22. signature_city: string
+    23. signature_date: string (date)
 
-    CRITICAL INSTRUCTIONS:
-    - Only the KEYS of the JSON must be snake_case (e.g. company_name, purchase_price).
-      The VALUES themselves must be copied EXACTLY as written in the source text, preserving
-      original casing, spacing, punctuation and wording. Never convert a value into snake_case,
-      lowercase, or a slug -- e.g. if the source says "Entrepreneurial Company (UG)", the value
-      must stay "Entrepreneurial Company (UG)", NOT "entrepreneurial_company_ug".
-    - You must find and include ALL 23 fields. Look closely through the entire text, including
-      every row of every table -- do not stop partway through a section.
-    - Convert only financial/area/year VALUES into clean numbers (remove '€', 'm²', spaces, or commas).
-      Do not alter any other text value's wording.
-    - If a field is genuinely absent from the document, use null -- but only after checking carefully.
+    RULES:
+    - Output ONLY the JSON object. No markdown, no explanation, no code fences.
+    - Keys must be exactly these 23 snake_case names, nothing more, nothing less.
+    - String values: copy EXACTLY as written in the source (casing, spacing, punctuation).
+      Never slugify or lowercase a text value.
+    - Number values: strip currency symbols, units, spaces, and thousands separators
+      (e.g. "4.316.000 €" -> 4316000).
+    - Boolean fields (early_repayment, public_subsidies) represent YES/NO checkboxes in the
+      document. They are almost NEVER absent -- the form always has a checked or unchecked
+      box, or an explicit Yes/No/checked/unchecked marker. Read the surrounding checkbox
+      symbols (X, checked, ✓, Yes) carefully and return true or false. Only use null for a
+      boolean field if there is truly no checkbox or marker anywhere in the text for it.
+    - For every other field, scan the ENTIRE text (every table row, every section) before
+      deciding a value is missing. Use null only after a careful full-document check.
     """
 
     try:

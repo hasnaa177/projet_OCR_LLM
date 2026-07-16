@@ -221,14 +221,14 @@ def build_pdf(record: dict, path: Path) -> None:
 # ---------------------------------------------------------------------------
 # 3. Optional: degrade a PDF into a "scanned" image-based PDF for OCR stress tests
 # ---------------------------------------------------------------------------
-def degrade_to_scanned(pdf_path: Path, out_path: Path) -> None:
+def degrade_to_scanned(pdf_path: Path, out_path: Path, dpi: int = 150) -> None:
     """Render PDF -> image, add noise/rotation/blur, save as image-based PDF.
     Requires: pdf2image (and poppler), pillow."""
     from pdf2image import convert_from_path
     from PIL import Image, ImageFilter
     import numpy as np
 
-    pages = convert_from_path(str(pdf_path), dpi=100)
+    pages = convert_from_path(str(pdf_path), dpi=dpi)
     processed = []
     for img in pages:
         img = img.convert("L")                       # grayscale, like a scan
@@ -252,6 +252,8 @@ def main():
     ap.add_argument("--outdir", default="./synthetic_data")
     ap.add_argument("--degrade", action="store_true",
                     help="also produce scanned-style noisy versions")
+    ap.add_argument("--dpi", type=int, default=80,
+                    help="resolution du rendu pour les scans degrades (defaut: 80)")
     ap.add_argument("--seed", type=int, default=None)
     args = ap.parse_args()
 
@@ -276,13 +278,14 @@ def main():
 
         if args.degrade:
             try:
-                degrade_to_scanned(pdf_path, out / "scanned" / f"{doc_id}.pdf")
+                degrade_to_scanned(pdf_path, out / "scanned" / f"{doc_id}.pdf", dpi=args.dpi)
             except Exception as e:
                 print(f"  (degrade skipped for {doc_id}: {e})")
 
         index.append({"document_id": doc_id,
                       "pdf": str(pdf_path),
-                      "ground_truth": str(gt_path)})
+                      "ground_truth": str(gt_path),
+                      "scanned_dpi": args.dpi if args.degrade else None})
         print(f"generated {doc_id}")
 
     (out / "index.json").write_text(json.dumps(index, indent=2))

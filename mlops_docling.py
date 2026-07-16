@@ -53,7 +53,7 @@ SOURCE_FOLDERS = {"pdfs": "pdfs", "scanned": "scanned"}
 
 # A mettre a jour manuellement chaque fois que le prompt dans main.py change,
 # pour garder une correspondance claire dans l'historique MLflow.
-PROMPT_VERSION = "v3_snake_case_keys_only"
+PROMPT_VERSION = "v4_typed_schema_boolean_focus"
 LLM_MODEL = "llama3.1"
 
 # ==========================================
@@ -541,6 +541,9 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
         mlflow.log_param("prompt_version", PROMPT_VERSION)
         mlflow.log_param("llm_model", LLM_MODEL)
         mlflow.log_param("dataset_size", len(index))
+        if source == "scanned":
+            dpi_values = {item.get("scanned_dpi") for item in index if item.get("scanned_dpi") is not None}
+            mlflow.log_param("scanned_dpi", dpi_values.pop() if len(dpi_values) == 1 else "mixed")
         mlflow.set_tag("run_date_utc", datetime.now(timezone.utc).isoformat())
         try:
             git_sha = subprocess.run(
@@ -654,6 +657,7 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
 
         # --- Logging MLflow ---
         mlflow.log_metric("global_accuracy_pct", summary["global_accuracy_pct"])
+        mlflow.log_metric("documents_processed", summary["documents_processed"])
         mlflow.log_metric("total_incorrect", total_incorrect)
         mlflow.log_metric("total_hallucinated", total_hallucinated)
         mlflow.log_metric("total_missing", total_missing)
