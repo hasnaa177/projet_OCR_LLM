@@ -53,7 +53,7 @@ SOURCE_FOLDERS = {"pdfs": "pdfs", "scanned": "scanned"}
 
 # A mettre a jour manuellement chaque fois que le prompt dans main.py change,
 # pour garder une correspondance claire dans l'historique MLflow.
-PROMPT_VERSION = "v4_typed_schema_boolean_focus"
+PROMPT_VERSION = "prompt1"
 LLM_MODEL = "llama3.1"
 
 # ==========================================
@@ -496,7 +496,7 @@ def process_document(doc_id_ref: str, pdf_path: Path, gt: dict, sampler: MemoryS
 # ==========================================
 # 4. RUN COMPLET SUR LE DATASET (+ tracking MLflow)
 # ==========================================
-def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pdfs", fail_under=None, data_dir: Path = None):
+def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pdfs", fail_under=None, data_dir: Path = None, scanned_dpi: int = None):
     print(f"Verification de l'API...")
     try:
         resp = requests.get(f"{API_URL}/health", timeout=5)
@@ -541,9 +541,6 @@ def run_benchmark(engine_label: str, show_errors: bool = True, source: str = "pd
         mlflow.log_param("prompt_version", PROMPT_VERSION)
         mlflow.log_param("llm_model", LLM_MODEL)
         mlflow.log_param("dataset_size", len(index))
-        if source == "scanned":
-            dpi_values = {item.get("scanned_dpi") for item in index if item.get("scanned_dpi") is not None}
-            mlflow.log_param("scanned_dpi", dpi_values.pop() if len(dpi_values) == 1 else "mixed")
         mlflow.set_tag("run_date_utc", datetime.now(timezone.utc).isoformat())
         try:
             git_sha = subprocess.run(
@@ -826,15 +823,22 @@ def main():
         help="Dossier racine du dataset a utiliser (defaut: ./data). "
              "Ex: ./data_scanee_100 pour tester sur les PDF degrades a 100 DPI.",
     )
+    parser.add_argument(
+    "--scanned-dpi", type=int, default=None,
+    help="DPI des PDF scannes traites (ex: 150). Si fourni, ecrase toute deduction "
+         "automatique depuis index.json -- utile car un dossier donne (ex: "
+         "data_scanee_150) contient toujours un DPI unique et connu a l'avance.",
+)
     args = parser.parse_args()
 
     show_errors = not args.quiet_errors
 
     if args.engine:
         run_benchmark(
-            args.engine, show_errors=show_errors, source=args.source,
-            fail_under=args.fail_under, data_dir=Path(args.data_dir),
-        )
+        args.engine, show_errors=show_errors, source=args.source,
+        fail_under=args.fail_under, data_dir=Path(args.data_dir),
+        scanned_dpi=args.scanned_dpi,
+    )
     elif args.compare:
         compare_engines(args.compare[0], args.compare[1], show_errors=show_errors, source=args.source)
     else:

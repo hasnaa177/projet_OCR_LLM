@@ -53,13 +53,34 @@ def _fix_table_headers(markdown_text: str) -> str:
     return "\n".join(output)
 
 
-def run_ocr_docling(pdf_bytes: bytes) -> list:
+def run_ocr_docling(pdf_bytes: bytes, do_ocr: bool = True) -> list:
+    from docling.document_converter import DocumentConverter, PdfFormatOption
+    from docling.datamodel.pipeline_options import PdfPipelineOptions
+    from docling.datamodel.base_models import InputFormat
+
     with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
         tmp.write(pdf_bytes)
         tmp_path = tmp.name
 
     try:
-        result = _get_converter().convert(tmp_path)
+        if do_ocr:
+            # Comportement par defaut inchange -- pipeline complet (OCR actif),
+            # necessaire pour les PDF scannes (data/scanned/) qui n'ont pas de
+            # couche texte native.
+            converter = _get_converter()
+        else:
+            # Court-circuite l'OCR : utilise UNIQUEMENT la couche texte deja
+            # presente dans le PDF. Beaucoup plus rapide, mais ne fonctionne
+            # que sur des PDF "nes numeriques" (data/pdfs/) -- sur un PDF
+            # scanne sans texte integre, ceci renvoie un texte vide.
+            pipeline_options = PdfPipelineOptions()
+            pipeline_options.do_ocr = False
+            pipeline_options.do_table_structure = True
+            converter = DocumentConverter(
+                format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)}
+            )
+
+        result = converter.convert(tmp_path)
         markdown_text = result.document.export_to_markdown()
         markdown_text = _fix_table_headers(markdown_text)
         bounding_boxes = _extract_bounding_boxes(result.document, page_number=1)
