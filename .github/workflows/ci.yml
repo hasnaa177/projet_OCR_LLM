@@ -24,6 +24,8 @@ jobs:
         run: |
           python -m py_compile app/main.py app/ocr_engines/*.py mlops_docling.py evaluate.py
 
+      - name: Créer le réseau Docker
+        run: docker network create shared-ne
       # 3. Build + demarrage de TOUTE la stack, y compris ollama (oublie dans
       #    une version precedente -- sans lui, /extract renvoie toujours {}
       #    et le seuil de precision echoue systematiquement, meme si tout
