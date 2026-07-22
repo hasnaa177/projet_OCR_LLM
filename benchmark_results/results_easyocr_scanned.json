@@ -1,0 +1,516 @@
+{
+  "summary": {
+    "engine": "easyocr",
+    "documents_processed": 3,
+    "total_fields": 69,
+    "total_correct": 60,
+    "total_incorrect": 5,
+    "total_hallucinated": 0,
+    "total_missing": 4,
+    "global_accuracy_pct": 86.96,
+    "avg_time_per_doc_seconds": 1072.93,
+    "peak_memory_mib": 4313.1,
+    "run_duration_seconds": 3228.34,
+    "documents_per_minute": 0.06,
+    "perfect_document_rate_pct": 0.0,
+    "incorrect_rate_pct": 7.25,
+    "hallucination_rate_pct": 0.0,
+    "missing_rate_pct": 5.8,
+    "extraction_completeness_pct": 94.2,
+    "ocr_p50_seconds": 248.85,
+    "ocr_p95_seconds": 250.6,
+    "extract_p50_seconds": 694.78,
+    "extract_p95_seconds": 1223.94,
+    "total_p50_seconds": 945.57,
+    "total_p95_seconds": 1464.78,
+    "avg_ocr_char_count": 1096.7,
+    "source": "scanned"
+  },
+  "field_level": {
+    "company_name": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "legal_form": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "date_of_incorporation": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "business_address": {
+      "correct": 2,
+      "incorrect": 1,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 66.67
+    },
+    "vat_id": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_type": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_name": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_address": {
+      "correct": 2,
+      "incorrect": 1,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 66.67
+    },
+    "purchase_price": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "financing_amount": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "purpose_of_use": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "equity_contribution": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "year_of_construction": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "total_area_m2": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "desired_loan_amount": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "term_years": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "monthly_installment": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "interest_rate": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "early_repayment": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 2,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 33.33
+    },
+    "public_subsidies": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 2,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 33.33
+    },
+    "signature_city": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "signature_date": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "commercial_register": {
+      "correct": 0,
+      "incorrect": 3,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 0.0
+    }
+  },
+  "category_stats": {
+    "numeric": {
+      "correct": 24,
+      "total": 24,
+      "accuracy_pct": 100.0
+    },
+    "boolean": {
+      "correct": 2,
+      "total": 6,
+      "accuracy_pct": 33.33
+    },
+    "date": {
+      "correct": 6,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "text": {
+      "correct": 28,
+      "total": 33,
+      "accuracy_pct": 84.85
+    }
+  },
+  "documents": [
+    {
+      "doc_id_ref": "loan_0001",
+      "document_id": "1c472e04-9d71-4fec-911a-7033ec542290",
+      "timings": {
+        "ocr_seconds": 239.73,
+        "extract_seconds": 1282.74,
+        "total_seconds": 1522.47
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 4313.1,
+          "avg_mib": 2094.3,
+          "samples": 118
+        },
+        "extract": {
+          "peak_mib": 636.5,
+          "avg_mib": 625.1,
+          "samples": 617
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 22,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [
+          {
+            "field": "commercial_register",
+            "expected": "HRB 588411 / Klötze Local Court",
+            "obtained": "Court HRB 588411 Klötze Local Court"
+          }
+        ],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 95.65
+      },
+      "extracted_data": {
+        "company_name": "Stolze Stiftung & Co. KG UG",
+        "legal_form": "Sole Proprietorship",
+        "date_of_incorporation": "29/11/2019",
+        "business_address": "Carmine-Hecker-Gasse 160, 49332 Klötze, Germany",
+        "commercial_register": "Court HRB 588411 Klötze Local Court",
+        "vat_id": "DE308617365",
+        "property_type": "Retail Property",
+        "property_name": "Böse Center Klötze",
+        "property_address": "Milica-Binner-Allee 11, 55325 Klötze, Germany",
+        "purchase_price": 2271000,
+        "financing_amount": 1838000,
+        "purpose_of_use": "Purchase and Renovation",
+        "equity_contribution": 433000,
+        "year_of_construction": 2008,
+        "total_area_m2": 4533,
+        "desired_loan_amount": 1838000,
+        "term_years": 25,
+        "monthly_installment": 8300,
+        "interest_rate": "Variable",
+        "early_repayment": true,
+        "public_subsidies": true,
+        "signature_city": "Klötze",
+        "signature_date": "19/07/2026"
+      },
+      "ocr_char_count": 1083
+    },
+    {
+      "doc_id_ref": "loan_0002",
+      "document_id": "2e4b3bd8-02cb-45e8-9f4c-151862615887",
+      "timings": {
+        "ocr_seconds": 248.85,
+        "extract_seconds": 501.9,
+        "total_seconds": 750.75
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 4083.7,
+          "avg_mib": 2027.2,
+          "samples": 122
+        },
+        "extract": {
+          "peak_mib": 383.0,
+          "avg_mib": 383.0,
+          "samples": 242
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 19,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [
+          {
+            "field": "business_address",
+            "expected": "Natalia-Heidrich-Weg 97, 21754 Greifswald, Germany",
+            "obtained": "Natalia-Heidrich-! 97,21754 Greifswald, Germany"
+          },
+          {
+            "field": "commercial_register",
+            "expected": "HRB 968732 / Greifswald Local Court",
+            "obtained": "/ Court HRB 968732 Greifswald Local Court"
+          }
+        ],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": true
+          },
+          {
+            "field": "public_subsidies",
+            "expected": true
+          }
+        ],
+        "accuracy_pct": 82.61
+      },
+      "extracted_data": {
+        "company_name": "Radisch Bohlander AG & Co. KGaA UG",
+        "legal_form": "Limited Partnership (KG)",
+        "date_of_incorporation": "31/08/2015",
+        "business_address": "Natalia-Heidrich-! 97,21754 Greifswald, Germany",
+        "commercial_register": "/ Court HRB 968732 Greifswald Local Court",
+        "vat_id": "DE793259774",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Maus Center Greifswald",
+        "property_address": "Jasmina-Lindau-Platz 156, 32699 Greifswald, Germany",
+        "purchase_price": 837000,
+        "financing_amount": 740000,
+        "purpose_of_use": "Modernization",
+        "equity_contribution": 97000,
+        "year_of_construction": 2009,
+        "total_area_m2": 1051,
+        "desired_loan_amount": 740000,
+        "term_years": 25,
+        "monthly_installment": 3200,
+        "interest_rate": "Variable",
+        "early_repayment": null,
+        "public_subsidies": null,
+        "signature_city": "Greifswald",
+        "signature_date": "19/07/2026"
+      },
+      "ocr_char_count": 1106
+    },
+    {
+      "doc_id_ref": "loan_0003",
+      "document_id": "4e6d1ae8-dc72-4415-8a14-286719e3017f",
+      "timings": {
+        "ocr_seconds": 250.79,
+        "extract_seconds": 694.78,
+        "total_seconds": 945.57
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 4037.6,
+          "avg_mib": 1749.0,
+          "samples": 123
+        },
+        "extract": {
+          "peak_mib": 362.6,
+          "avg_mib": 362.5,
+          "samples": 334
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 19,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [
+          {
+            "field": "commercial_register",
+            "expected": "HRB 207122 / Wolfratshausen Local Court",
+            "obtained": "Court HRB 207122 Wolfratshausen Local Court"
+          },
+          {
+            "field": "property_address",
+            "expected": "Mielcarekstr. 110, 73104 Wolfratshausen, Germany",
+            "obtained": "Mielcarekstr . 110, 73104 Wolfratshausen, Germany"
+          }
+        ],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": false
+          },
+          {
+            "field": "public_subsidies",
+            "expected": true
+          }
+        ],
+        "accuracy_pct": 82.61
+      },
+      "extracted_data": {
+        "company_name": "Eigenwillig GmbH",
+        "legal_form": "Sole Proprietorship",
+        "date_of_incorporation": "30/05/2017",
+        "business_address": "Sibylla-Schmidtke-Allee 136, 13898 Wolfratshausen, Germany",
+        "commercial_register": "Court HRB 207122 Wolfratshausen Local Court",
+        "vat_id": "DE513116263",
+        "property_type": "Mixed-Use Building",
+        "property_name": "Rad Center Wolfratshausen",
+        "property_address": "Mielcarekstr . 110, 73104 Wolfratshausen, Germany",
+        "purchase_price": 2016000,
+        "financing_amount": 1480000,
+        "purpose_of_use": "Purchase",
+        "equity_contribution": 536000,
+        "year_of_construction": 2016,
+        "total_area_m2": 1333,
+        "desired_loan_amount": 1480000,
+        "term_years": 30,
+        "monthly_installment": 5500,
+        "interest_rate": "Variable",
+        "early_repayment": null,
+        "public_subsidies": null,
+        "signature_city": "Wolfratshausen",
+        "signature_date": "19/07/2026"
+      },
+      "ocr_char_count": 1101
+    }
+  ]
+}

@@ -1,0 +1,483 @@
+{
+  "summary": {
+    "engine": "marker",
+    "documents_processed": 3,
+    "total_fields": 69,
+    "total_correct": 68,
+    "total_incorrect": 0,
+    "total_hallucinated": 0,
+    "total_missing": 1,
+    "global_accuracy_pct": 98.55,
+    "avg_time_per_doc_seconds": 0.08,
+    "peak_memory_mib": 2593.8,
+    "run_duration_seconds": 12.45,
+    "documents_per_minute": 14.46,
+    "perfect_document_rate_pct": 66.67,
+    "incorrect_rate_pct": 0.0,
+    "hallucination_rate_pct": 0.0,
+    "missing_rate_pct": 1.45,
+    "extraction_completeness_pct": 98.55,
+    "ocr_p50_seconds": 0.01,
+    "ocr_p95_seconds": 0.16,
+    "extract_p50_seconds": 0.01,
+    "extract_p95_seconds": 0.02,
+    "total_p50_seconds": 0.02,
+    "total_p95_seconds": 0.18,
+    "avg_ocr_char_count": 2189.0,
+    "source": "pdfs"
+  },
+  "field_level": {
+    "company_name": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "legal_form": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "date_of_incorporation": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "business_address": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "commercial_register": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "vat_id": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_type": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_name": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "property_address": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "purchase_price": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "financing_amount": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "purpose_of_use": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "equity_contribution": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "year_of_construction": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "total_area_m2": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "desired_loan_amount": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "term_years": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "monthly_installment": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "interest_rate": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "public_subsidies": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "signature_city": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "signature_date": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 100.0
+    },
+    "early_repayment": {
+      "correct": 2,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 3,
+      "accuracy_pct": 66.67
+    }
+  },
+  "category_stats": {
+    "numeric": {
+      "correct": 24,
+      "total": 24,
+      "accuracy_pct": 100.0
+    },
+    "boolean": {
+      "correct": 5,
+      "total": 6,
+      "accuracy_pct": 83.33
+    },
+    "date": {
+      "correct": 6,
+      "total": 6,
+      "accuracy_pct": 100.0
+    },
+    "text": {
+      "correct": 33,
+      "total": 33,
+      "accuracy_pct": 100.0
+    }
+  },
+  "documents": [
+    {
+      "doc_id_ref": "loan_0001",
+      "document_id": "f9cb95b7-6b46-405f-bf66-dd135167bed3",
+      "timings": {
+        "ocr_seconds": 0.18,
+        "extract_seconds": 0.02,
+        "total_seconds": 0.2
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 22,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 95.65
+      },
+      "extracted_data": {
+        "vat_id": "DE200030352",
+        "legal_form": "Sole Proprietorship",
+        "term_years": 20,
+        "company_name": "auch Schlauchin Karz GmbH & Co. KG GmbH",
+        "interest_rate": "Variable",
+        "property_name": "Nämlich Center Diepholz",
+        "property_type": "Office and Commercial Building",
+        "total_area_m2": 3673,
+        "purchase_price": 3833000,
+        "purpose_of_use": "New Construction",
+        "signature_city": "Diepholz",
+        "signature_date": "15/07/2026",
+        "early_repayment": null,
+        "business_address": "Magret-Schmidtke-Gasse 100, 66964 Diepholz, Germany",
+        "financing_amount": 2705000,
+        "property_address": "Thoralf-Haase-Weg 111, 43398 Diepholz, Germany",
+        "public_subsidies": true,
+        "commercial_register": "HRB 657856 / Diepholz Local Court",
+        "desired_loan_amount": 2705000,
+        "equity_contribution": 1128000,
+        "monthly_installment": 12700,
+        "year_of_construction": 1982,
+        "date_of_incorporation": "21/04/2016"
+      },
+      "ocr_char_count": 2250
+    },
+    {
+      "doc_id_ref": "loan_0002",
+      "document_id": "b64cfc53-2eac-4aa0-ac5f-4722ff0e6a81",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.01,
+        "total_seconds": 0.02
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "vat_id": "DE915514645",
+        "legal_form": "Entrepreneurial Company (UG)",
+        "term_years": 20,
+        "company_name": "Renner Keudel KG UG",
+        "interest_rate": "Fixed",
+        "property_name": "Schlafen Center Wolgast",
+        "property_type": "Office and Commercial Building",
+        "total_area_m2": 4405,
+        "purchase_price": 2100000,
+        "purpose_of_use": "New Construction",
+        "signature_city": "Wolgast",
+        "signature_date": "15/07/2026",
+        "early_repayment": true,
+        "business_address": "Karzweg 179, 04465 Wolgast, Germany",
+        "financing_amount": 1559000,
+        "property_address": "Maik-Drubin-Platz 127, 55764 Wolgast, Germany",
+        "public_subsidies": false,
+        "commercial_register": "HRB 475900 / Wolgast Local Court",
+        "desired_loan_amount": 1559000,
+        "equity_contribution": 541000,
+        "monthly_installment": 8100,
+        "year_of_construction": 1990,
+        "date_of_incorporation": "11/02/2009"
+      },
+      "ocr_char_count": 2138
+    },
+    {
+      "doc_id_ref": "loan_0003",
+      "document_id": "1160fbba-dc03-43ca-927b-da2a3ee8fc69",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.01,
+        "total_seconds": 0.02
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 2593.8,
+          "avg_mib": 2593.8,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "vat_id": "DE175165965",
+        "legal_form": "Limited Partnership (KG)",
+        "term_years": 25,
+        "company_name": "Rogner AG AG",
+        "interest_rate": "Fixed",
+        "property_name": "Spielen Center Ebersberg",
+        "property_type": "Office and Commercial Building",
+        "total_area_m2": 4407,
+        "purchase_price": 4767000,
+        "purpose_of_use": "Purchase",
+        "signature_city": "Ebersberg",
+        "signature_date": "15/07/2026",
+        "early_repayment": true,
+        "business_address": "Hans-Herbert-Wiek-Platz 6, 96880 Ebersberg, Germany",
+        "financing_amount": 3928000,
+        "property_address": "Löwerstr. 69, 58619 Ebersberg, Germany",
+        "public_subsidies": false,
+        "commercial_register": "HRB 941820 / Ebersberg Local Court",
+        "desired_loan_amount": 3928000,
+        "equity_contribution": 839000,
+        "monthly_installment": 15800,
+        "year_of_construction": 2011,
+        "date_of_incorporation": "03/08/2010"
+      },
+      "ocr_char_count": 2179
+    }
+  ]
+}
