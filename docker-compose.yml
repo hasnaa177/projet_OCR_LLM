@@ -9,6 +9,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shared-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U pfa"]
       interval: 5s
@@ -26,11 +28,26 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+    networks:
+      - shared-net
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    ports:
+      - "9002:9000"
+      - "9003:9001"
+    environment:
+      RUSTFS_ROOT_USER: rustfsadmin
+      RUSTFS_ROOT_PASSWORD: rustfsadmin
+    networks:
+      - shared-net
+    volumes:
+      - rustfs_data:/data
 
   ollama:
     image: ollama/ollama:latest
@@ -39,6 +56,8 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    networks:
+      - shared-net
 
   api:
     build: ./app          # Docker construit depuis le dossier app
@@ -52,20 +71,58 @@ services:
         condition: service_healthy
     volumes:
       - ./app:/app
-      - ./data:/app/data 
-      - /uploads:/app/uploads     # Monte le dossier app local dans /app du conteneur
+      - ./data:/app/data
+      - /uploads:/app/uploads
       - ./data_scanee_150:/app/data_scanee_150
+      - ./models:/app/models
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
       - OCR_ENGINE=${OCR_ENGINE:-easyocr}
       - PYTHONUNBUFFERED=1
+      - DOCLING_MODEL_PATH=/app/models
+    networks:
+      - shared-net       # <-- ajouté : Prometheus peut maintenant scraper api:8000 par nom
     command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus          # <-- LES MÉTRIQUES VIVENT ICI (à conserver !)
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"  # garde 30 jours d'historique (défaut = 15j)
+    networks:
+      - shared-net
+    depends_on:
+      - api
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana        # <-- DASHBOARDS + DATASOURCE VIVENT ICI (à conserver !)
+    networks:
+      - shared-net
+    depends_on:
+      - prometheus
 
 networks:
   shared-net:
-    external: true
+    external: true          # doit déjà exister :  docker network create shared-net
 
 volumes:
   postgres_data:
   minio_data:
   ollama_data:
+  prometheus_data:
+  grafana_data:
+  rustfs_data:

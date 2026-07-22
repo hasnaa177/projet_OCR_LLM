@@ -1,0 +1,349 @@
+{
+  "summary": {
+    "engine": "tesseract",
+    "documents_processed": 1,
+    "total_fields": 23,
+    "total_correct": 14,
+    "total_incorrect": 1,
+    "total_hallucinated": 0,
+    "total_missing": 8,
+    "global_accuracy_pct": 60.87,
+    "avg_time_per_doc_seconds": 669.22,
+    "peak_memory_mib": 495.6,
+    "run_duration_seconds": 696.56,
+    "documents_per_minute": 0.09,
+    "perfect_document_rate_pct": 0.0,
+    "incorrect_rate_pct": 4.35,
+    "hallucination_rate_pct": 0.0,
+    "missing_rate_pct": 34.78,
+    "extraction_completeness_pct": 65.22,
+    "ocr_p50_seconds": 18.71,
+    "ocr_p95_seconds": 18.71,
+    "extract_p50_seconds": 650.51,
+    "extract_p95_seconds": 650.51,
+    "total_p50_seconds": 669.22,
+    "total_p95_seconds": 669.22,
+    "avg_ocr_char_count": 824.0,
+    "source": "scanned"
+  },
+  "field_level": {
+    "company_name": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "legal_form": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "date_of_incorporation": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "business_address": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "vat_id": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "property_address": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "financing_amount": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "desired_loan_amount": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "term_years": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "monthly_installment": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "early_repayment": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "public_subsidies": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "signature_city": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "signature_date": {
+      "correct": 1,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 100.0
+    },
+    "commercial_register": {
+      "correct": 0,
+      "incorrect": 1,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "property_type": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "property_name": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "purchase_price": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "purpose_of_use": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "equity_contribution": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "year_of_construction": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "total_area_m2": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    },
+    "interest_rate": {
+      "correct": 0,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 1,
+      "accuracy_pct": 0.0
+    }
+  },
+  "category_stats": {
+    "numeric": {
+      "correct": 4,
+      "total": 8,
+      "accuracy_pct": 50.0
+    },
+    "boolean": {
+      "correct": 2,
+      "total": 2,
+      "accuracy_pct": 100.0
+    },
+    "date": {
+      "correct": 2,
+      "total": 2,
+      "accuracy_pct": 100.0
+    },
+    "text": {
+      "correct": 6,
+      "total": 11,
+      "accuracy_pct": 54.55
+    }
+  },
+  "documents": [
+    {
+      "doc_id_ref": "loan_0001",
+      "document_id": "c32ecf62-5e3b-4147-b702-09dccbf0fd78",
+      "timings": {
+        "ocr_seconds": 18.71,
+        "extract_seconds": 650.51,
+        "total_seconds": 669.22
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 495.6,
+          "avg_mib": 302.5,
+          "samples": 10
+        },
+        "extract": {
+          "peak_mib": 212.1,
+          "avg_mib": 210.3,
+          "samples": 306
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 14,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "vat_id",
+          "property_address",
+          "financing_amount",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [
+          {
+            "field": "commercial_register",
+            "expected": "HRB 588411 / Klötze Local Court",
+            "obtained": "/ Court HRB 588411 / Klötze Local Court"
+          }
+        ],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "property_type",
+            "expected": "Retail Property"
+          },
+          {
+            "field": "property_name",
+            "expected": "Böse Center Klötze"
+          },
+          {
+            "field": "purchase_price",
+            "expected": 2271000
+          },
+          {
+            "field": "purpose_of_use",
+            "expected": "Purchase and Renovation"
+          },
+          {
+            "field": "equity_contribution",
+            "expected": 433000
+          },
+          {
+            "field": "year_of_construction",
+            "expected": 2008
+          },
+          {
+            "field": "total_area_m2",
+            "expected": 4533
+          },
+          {
+            "field": "interest_rate",
+            "expected": "Variable"
+          }
+        ],
+        "accuracy_pct": 60.87
+      },
+      "extracted_data": {
+        "company_name": "Stolze Stiftung & Co. KG UG",
+        "legal_form": "Sole Proprietorship",
+        "date_of_incorporation": "29/11/2019",
+        "business_address": "Carmine-Hecker-Gasse 160, 49332 Klötze, Germany",
+        "commercial_register": "/ Court HRB 588411 / Klötze Local Court",
+        "vat_id": "DE308617365",
+        "property_type": null,
+        "property_name": null,
+        "property_address": "Milica-Binner-Allee 11, 55325 Klötze, Germany",
+        "purchase_price": null,
+        "financing_amount": 1838000,
+        "purpose_of_use": null,
+        "equity_contribution": null,
+        "year_of_construction": null,
+        "total_area_m2": null,
+        "desired_loan_amount": 1838000,
+        "term_years": 25,
+        "monthly_installment": 8300,
+        "interest_rate": null,
+        "early_repayment": true,
+        "public_subsidies": true,
+        "signature_city": "Klötze",
+        "signature_date": "19/07/2026"
+      },
+      "ocr_char_count": 824
+    }
+  ]
+}

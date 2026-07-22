@@ -14,4 +14,4 @@ torchvision==0.20.1
 transformers==4.49.0
 
 docling==2.108.0
-marker-pdf
+prometheus-fastapi-instrumentator==7.0.0

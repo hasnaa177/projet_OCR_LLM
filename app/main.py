@@ -5,6 +5,8 @@ from pathlib import Path
 from io import BytesIO
 import json
 import re
+import time
+from ocr_engines import run_ocr, needs_easyocr_preprocessing, OCR_ENGINE
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import PlainTextResponse
@@ -17,6 +19,8 @@ import ollama
 from ocr_engines import run_ocr, needs_easyocr_preprocessing
 
 import hashlib
+
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # ==========================================
 # 1. SCHÉMA DE SORTIE STRICT (23 CHAMPS)
@@ -182,54 +186,50 @@ def extract_credit_info_with_llm(structured_text: str) -> dict:
     ollama_url = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
     client = ollama.Client(host=ollama_url)
 
-prompt = f"""
-    You are a document-extraction engine. Extract structured data from the text below
-    into a single JSON object with EXACTLY the 23 keys listed, each with its expected type.
+    prompt = f"""
+    You are an expert financial analyst. Analyze the following document text and extract EVERY field listed below.
 
     Document text:
     ---
     {structured_text}
     ---
 
-    SCHEMA (key: type -- description):
-    1. company_name: string
-    2. legal_form: string
-    3. date_of_incorporation: string (date)
-    4. business_address: string
-    5. commercial_register: string
-    6. vat_id: string
-    7. property_type: string
-    8. property_name: string
-    9. property_address: string
-    10. purchase_price: number
-    11. financing_amount: number
-    12. purpose_of_use: string
-    13. equity_contribution: number
-    14. year_of_construction: number
-    15. total_area_m2: number
-    16. desired_loan_amount: number
-    17. term_years: number
-    18. monthly_installment: number
-    19. interest_rate: string
-    20. early_repayment: boolean
-    21. public_subsidies: boolean
-    22. signature_city: string
-    23. signature_date: string (date)
+    FIELDS TO EXTRACT (use these EXACT snake_case keys, all 23 must appear in the output):
+    1. company_name
+    2. legal_form
+    3. date_of_incorporation
+    4. business_address
+    5. commercial_register
+    6. vat_id
+    7. property_type
+    8. property_name
+    9. property_address
+    10. purchase_price
+    11. financing_amount
+    12. purpose_of_use
+    13. equity_contribution
+    14. year_of_construction
+    15. total_area_m2
+    16. desired_loan_amount
+    17. term_years
+    18. monthly_installment
+    19. interest_rate
+    20. early_repayment
+    21. public_subsidies
+    22. signature_city
+    23. signature_date
 
-    RULES:
-    - Output ONLY the JSON object. No markdown, no explanation, no code fences.
-    - Keys must be exactly these 23 snake_case names, nothing more, nothing less.
-    - String values: copy EXACTLY as written in the source (casing, spacing, punctuation).
-      Never slugify or lowercase a text value.
-    - Number values: strip currency symbols, units, spaces, and thousands separators
-      (e.g. "4.316.000 €" -> 4316000).
-    - Boolean fields (early_repayment, public_subsidies) represent YES/NO checkboxes in the
-      document. They are almost NEVER absent -- the form always has a checked or unchecked
-      box, or an explicit Yes/No/checked/unchecked marker. Read the surrounding checkbox
-      symbols (X, checked, ✓, Yes) carefully and return true or false. Only use null for a
-      boolean field if there is truly no checkbox or marker anywhere in the text for it.
-    - For every other field, scan the ENTIRE text (every table row, every section) before
-      deciding a value is missing. Use null only after a careful full-document check.
+    CRITICAL INSTRUCTIONS:
+    - Only the KEYS of the JSON must be snake_case (e.g. company_name, purchase_price).
+      The VALUES themselves must be copied EXACTLY as written in the source text, preserving
+      original casing, spacing, punctuation and wording. Never convert a value into snake_case,
+      lowercase, or a slug -- e.g. if the source says "Entrepreneurial Company (UG)", the value
+      must stay "Entrepreneurial Company (UG)", NOT "entrepreneurial_company_ug".
+    - You must find and include ALL 23 fields. Look closely through the entire text, including
+      every row of every table -- do not stop partway through a section.
+    - Convert only financial/area/year VALUES into clean numbers (remove '€', 'm²', spaces, or commas).
+      Do not alter any other text value's wording.
+    - If a field is genuinely absent from the document, use null -- but only after checking carefully.
     """
 
     try:
@@ -261,6 +261,28 @@ prompt = f"""
 # 3. INITIALISATION DE L'API FASTAPI
 # ==========================================
 app = FastAPI(title="PFA OCR – Dossiers de Crédit")
+Instrumentator().instrument(app).expose(app)
+from prometheus_client import Counter, Histogram, Gauge
+import time
+
+OCR_DURATION = Histogram(
+    "ocr_duration_seconds", "Temps de traitement OCR", ["engine"],
+    buckets=[1, 2, 5, 10, 20, 30, 60, 90, 120]
+)
+EXTRACTION_DURATION = Histogram(
+    "extraction_duration_seconds", "Temps d'extraction LLM", ["llm_model"],
+    buckets=[1, 2, 5, 10, 20, 30, 60, 90, 120, 180, 300]
+)
+EXTRACTION_COMPLETENESS = Gauge(
+    "extraction_completeness_ratio",
+    "Ratio de champs non-null renvoyes par le LLM (dernier document traite)"
+)
+EXTRACTION_FAILURES = Counter(
+    "extraction_failures_total", "Nombre d'extractions ayant echoue (dict vide renvoye)"
+)
+DOCUMENTS_PROCESSED = Counter(
+    "documents_processed_total", "Nombre de documents traites avec succes", ["engine"]
+)
 engine = None
 
 def get_engine():
@@ -435,7 +457,9 @@ def trigger_ocr(doc_id: str):
         return {"document_id": doc_id, "status": "ocr_effectue", "pages_processed": len(results), "results": results, "already_processed": True}
 
     pdf_bytes = get_file(doc_id, doc.filename)
+    t0 = time.perf_counter()
     ocr_results = run_ocr(pdf_bytes)
+    OCR_DURATION.labels(engine=OCR_ENGINE).observe(time.perf_counter() - t0)
     with get_engine().connect() as conn:
         for page_result in ocr_results:
             conn.execute(text("""
@@ -494,7 +518,17 @@ def trigger_extraction(doc_id: str):
         else full_document_text
     )
 
+    t0 = time.perf_counter()
     extracted_data = extract_credit_info_with_llm(cleaned_document_text)
+    EXTRACTION_DURATION.labels(llm_model="llama3.1").observe(time.perf_counter() - t0)
+
+    if not extracted_data:
+        EXTRACTION_FAILURES.inc()
+    else:
+        non_null = sum(1 for v in extracted_data.values() if v is not None)
+        EXTRACTION_COMPLETENESS.set(non_null / len(extracted_data))
+        DOCUMENTS_PROCESSED.labels(engine=OCR_ENGINE).inc()
+
     extracted_data = _finalize_output(extracted_data)
 
     with get_engine().connect() as conn:

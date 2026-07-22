@@ -1,0 +1,566 @@
+{
+  "summary": {
+    "engine": "docling",
+    "documents_processed": 4,
+    "total_fields": 92,
+    "total_correct": 90,
+    "total_incorrect": 0,
+    "total_hallucinated": 0,
+    "total_missing": 2,
+    "global_accuracy_pct": 97.83,
+    "avg_time_per_doc_seconds": 0.02,
+    "peak_memory_mib": 1254.4,
+    "run_duration_seconds": 15.54,
+    "documents_per_minute": 15.44,
+    "perfect_document_rate_pct": 75.0,
+    "incorrect_rate_pct": 0.0,
+    "hallucination_rate_pct": 0.0,
+    "missing_rate_pct": 2.17,
+    "extraction_completeness_pct": 97.83,
+    "ocr_p50_seconds": 0.01,
+    "ocr_p95_seconds": 0.01,
+    "extract_p50_seconds": 0.01,
+    "extract_p95_seconds": 0.02,
+    "total_p50_seconds": 0.02,
+    "total_p95_seconds": 0.03,
+    "avg_ocr_char_count": 2194.5,
+    "source": "pdfs"
+  },
+  "field_level": {
+    "company_name": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "legal_form": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "date_of_incorporation": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "business_address": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "commercial_register": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "vat_id": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "property_type": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "property_name": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "property_address": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "purchase_price": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "financing_amount": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "purpose_of_use": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "equity_contribution": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "year_of_construction": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "total_area_m2": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "desired_loan_amount": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "term_years": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "monthly_installment": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "interest_rate": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "signature_city": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "signature_date": {
+      "correct": 4,
+      "incorrect": 0,
+      "missing": 0,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 100.0
+    },
+    "early_repayment": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 75.0
+    },
+    "public_subsidies": {
+      "correct": 3,
+      "incorrect": 0,
+      "missing": 1,
+      "hallucinated": 0,
+      "total": 4,
+      "accuracy_pct": 75.0
+    }
+  },
+  "category_stats": {
+    "numeric": {
+      "correct": 32,
+      "total": 32,
+      "accuracy_pct": 100.0
+    },
+    "boolean": {
+      "correct": 6,
+      "total": 8,
+      "accuracy_pct": 75.0
+    },
+    "date": {
+      "correct": 8,
+      "total": 8,
+      "accuracy_pct": 100.0
+    },
+    "text": {
+      "correct": 44,
+      "total": 44,
+      "accuracy_pct": 100.0
+    }
+  },
+  "documents": [
+    {
+      "doc_id_ref": "loan_0001",
+      "document_id": "4e7e42eb-e5d3-48c7-a34d-29685197b7bc",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.02,
+        "total_seconds": 0.03
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 21,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [
+          {
+            "field": "early_repayment",
+            "expected": false
+          },
+          {
+            "field": "public_subsidies",
+            "expected": false
+          }
+        ],
+        "accuracy_pct": 91.3
+      },
+      "extracted_data": {
+        "vat_id": "DE105677530",
+        "legal_form": "Entrepreneurial Company (UG)",
+        "term_years": 25,
+        "company_name": "Eigenwillig Trapp GmbH GmbH",
+        "interest_rate": "Fixed",
+        "property_name": "Traurig Center Lörrach",
+        "property_type": "Retail Property",
+        "total_area_m2": 561,
+        "purchase_price": 1355000,
+        "purpose_of_use": "New Construction",
+        "signature_city": "Lörrach",
+        "signature_date": "14/07/2026",
+        "early_repayment": null,
+        "business_address": "Losekannstraße 54, 51519 Lörrach, Germany",
+        "financing_amount": 950000,
+        "property_address": "Stanislav-Blümel-Platz 74, 70171 Lörrach, Germany",
+        "public_subsidies": null,
+        "commercial_register": "HRB 461276 / Lörrach Local Court",
+        "desired_loan_amount": 950000,
+        "equity_contribution": 405000,
+        "monthly_installment": 4300,
+        "year_of_construction": 1972,
+        "date_of_incorporation": "03/09/2010"
+      },
+      "ocr_char_count": 2210
+    },
+    {
+      "doc_id_ref": "loan_0002",
+      "document_id": "2b268622-42b6-4938-a884-110e5910f61a",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.01,
+        "total_seconds": 0.02
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "vat_id": "DE201820898",
+        "legal_form": "Sole Proprietorship",
+        "term_years": 20,
+        "company_name": "Pölitz GmbH",
+        "interest_rate": "Variable",
+        "property_name": "Für Center Deggendorf",
+        "property_type": "Mixed-Use Building",
+        "total_area_m2": 2072,
+        "purchase_price": 4544000,
+        "purpose_of_use": "Purchase and Renovation",
+        "signature_city": "Deggendorf",
+        "signature_date": "14/07/2026",
+        "early_repayment": true,
+        "business_address": "Geraldine-Mohaupt-Ring 101, 14347 Deggendorf, Germany",
+        "financing_amount": 3210000,
+        "property_address": "Junitzgasse 75, 54560 Deggendorf, Germany",
+        "public_subsidies": true,
+        "commercial_register": "HRB 241866 / Deggendorf Local Court",
+        "desired_loan_amount": 3210000,
+        "equity_contribution": 1334000,
+        "monthly_installment": 16100,
+        "year_of_construction": 1985,
+        "date_of_incorporation": "17/11/2009"
+      },
+      "ocr_char_count": 2219
+    },
+    {
+      "doc_id_ref": "loan_0003",
+      "document_id": "b49e9ce1-cc1e-4a57-b775-f95eeeec61ce",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.01,
+        "total_seconds": 0.02
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "vat_id": "DE945690710",
+        "legal_form": "Limited Partnership (KG)",
+        "term_years": 20,
+        "company_name": "Ebert Wernecke AG & Co. KGaA GmbH",
+        "interest_rate": "Fixed",
+        "property_name": "Zurück Center Hildesheim",
+        "property_type": "Office and Commercial Building",
+        "total_area_m2": 1121,
+        "purchase_price": 4703000,
+        "purpose_of_use": "New Construction",
+        "signature_city": "Hildesheim",
+        "signature_date": "14/07/2026",
+        "early_repayment": true,
+        "business_address": "Heserplatz 72, 02108 Hildesheim, Germany",
+        "financing_amount": 3830000,
+        "property_address": "Utz-Wieloch-Gasse 63, 13601 Hildesheim, Germany",
+        "public_subsidies": false,
+        "commercial_register": "HRB 839424 / Hildesheim Local Court",
+        "desired_loan_amount": 3830000,
+        "equity_contribution": 873000,
+        "monthly_installment": 20800,
+        "year_of_construction": 1974,
+        "date_of_incorporation": "21/02/2013"
+      },
+      "ocr_char_count": 2195
+    },
+    {
+      "doc_id_ref": "loan_0004",
+      "document_id": "3f0d69b4-7c6c-4d1b-87b0-a09552f4a857",
+      "timings": {
+        "ocr_seconds": 0.01,
+        "extract_seconds": 0.01,
+        "total_seconds": 0.02
+      },
+      "memory": {
+        "ocr": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        },
+        "extract": {
+          "peak_mib": 1254.4,
+          "avg_mib": 1254.4,
+          "samples": 1
+        }
+      },
+      "comparison": {
+        "total_fields": 23,
+        "correct": 23,
+        "correct_fields": [
+          "company_name",
+          "legal_form",
+          "date_of_incorporation",
+          "business_address",
+          "commercial_register",
+          "vat_id",
+          "property_type",
+          "property_name",
+          "property_address",
+          "purchase_price",
+          "financing_amount",
+          "purpose_of_use",
+          "equity_contribution",
+          "year_of_construction",
+          "total_area_m2",
+          "desired_loan_amount",
+          "term_years",
+          "monthly_installment",
+          "interest_rate",
+          "early_repayment",
+          "public_subsidies",
+          "signature_city",
+          "signature_date"
+        ],
+        "incorrect": [],
+        "hallucinated": [],
+        "missing": [],
+        "accuracy_pct": 100.0
+      },
+      "extracted_data": {
+        "vat_id": "DE914651005",
+        "legal_form": "Stock Corporation (AG)",
+        "term_years": 15,
+        "company_name": "Herrmann Beer GmbH & Co. OHG UG",
+        "interest_rate": "Variable",
+        "property_name": "Weinen Center Lüneburg",
+        "property_type": "Office and Commercial Building",
+        "total_area_m2": 4042,
+        "purchase_price": 3447000,
+        "purpose_of_use": "Purchase and Renovation",
+        "signature_city": "Lüneburg",
+        "signature_date": "14/07/2026",
+        "early_repayment": true,
+        "business_address": "Babette-Hesse-Ring 194, 58918 Lüneburg, Germany",
+        "financing_amount": 2502000,
+        "property_address": "Rustplatz 197, 55324 Lüneburg, Germany",
+        "public_subsidies": true,
+        "commercial_register": "HRB 292061 / Lüneburg Local Court",
+        "desired_loan_amount": 2502000,
+        "equity_contribution": 945000,
+        "monthly_installment": 17600,
+        "year_of_construction": 1982,
+        "date_of_incorporation": "06/04/2003"
+      },
+      "ocr_char_count": 2154
+    }
+  ]
+}
